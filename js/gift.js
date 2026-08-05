@@ -16,7 +16,7 @@
    verify your email, and paste the access key you're given below.
    Until that's done, this fails gracefully into the toast message
    below rather than pretending to have sent something it didn't. */
-const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_ACCESS_KEY = "e49454cf-f88c-4226-936f-7ec5b49f78a9";
 
 async function emailGiftCode({ code, amount, to, toEmail, from, message }) {
   if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE") {
