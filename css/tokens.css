@@ -1,0 +1,94 @@
+/* ============================================================
+   FERNHOLLOW — DESIGN TOKENS
+   A boutique forest-lodge booking site.
+   Palette: deep pine dark surfaces + warm plaster light surfaces,
+   brass gold for primary actions, quiet rust for secondary accents.
+   Signature motif: the "lantern glow" — a warm radial glow that
+   appears on primary actions, active dates and selected states,
+   echoing the string-lights-in-the-dark-woods feeling of the brand.
+   ============================================================ */
+
+:root{
+  /* --- surfaces --- */
+  --ink:        #12190F;   /* near-black pine, body text on light bg */
+  --pine-900:   #16241C;   /* darkest surface (footer, hero overlay) */
+  --pine-800:   #1D3226;   /* dark surface (header, dark cards) */
+  --pine-700:   #274332;   /* dark surface hover */
+  --pine-line:  #3A5545;   /* hairline on dark surfaces */
+
+  --parchment:      #EFE8D8; /* light surface */
+  --parchment-soft: #F7F3E9; /* lightest surface / cards on parchment */
+  --parchment-line: #DDD3B8; /* hairline on light surfaces */
+
+  /* --- accents --- */
+  --brass:       #C6A15B;
+  --brass-light: #E7CE9A;
+  --brass-dark:  #9C7B3E;
+  --rust:        #A15A34;
+  --rust-light:  #C97E51;
+  --moss:        #6E7F5C;
+
+  /* --- text --- */
+  --text-on-dark:      #F5EFDF;
+  --text-on-dark-soft: #CBC0A4;
+  --text-on-light:     #1B2820;
+  --text-on-light-soft:#5B6459;
+
+  /* --- feedback --- */
+  --ok:   #6E7F5C;
+  --warn: #A15A34;
+
+  /* --- type --- */
+  --font-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  --font-body: "Lora", Georgia, "Iowan Old Style", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- shape / space --- */
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 26px;
+  --radius-pill: 999px;
+
+  --gutter: clamp(20px, 5vw, 64px);
+  --container: 1240px;
+
+  /* --- motion --- */
+  --ease: cubic-bezier(.22,.9,.3,1);
+  --ease-soft: cubic-bezier(.4,0,.2,1);
+
+  /* --- signature lantern glow --- */
+  --glow-brass: 0 0 0 1px rgba(198,161,91,.55), 0 0 24px 2px rgba(198,161,91,.35);
+  --glow-brass-lg: 0 0 0 1px rgba(198,161,91,.6), 0 0 46px 6px rgba(198,161,91,.4);
+}
+
+@media (prefers-color-scheme: dark){
+  /* Site is intentionally single-theme (lodge-at-dusk identity),
+     so we do not swap palettes — we only ensure focus states
+     remain visible regardless of system theme. */
+}
+
+/* ---------- dark mode override ----------
+   Toggled by adding data-theme="dark" to <html> (see main.js). Keeps the
+   same brand hue throughout, just inverts which surfaces are "light" vs
+   "dark" so long reading sections are easier on the eyes at night. */
+html[data-theme="dark"]{
+  --parchment:      #17251B;
+  --parchment-soft: #1E2F23;
+  --parchment-line: #33452F;
+  --text-on-light:      #EDE7D6;
+  --text-on-light-soft: #A9B39F;
+  --pine-900: #0D1610;
+  --pine-800: #14211A;
+}
+html[data-theme="dark"] .hero-media::after{
+  background:linear-gradient(180deg,rgba(10,14,8,.3) 0%,rgba(10,14,8,.2) 38%,rgba(10,14,8,.92) 100%);
+}
+html[data-theme="dark"] .search-widget{ background:#1E2F23; }
+html[data-theme="dark"] .search-field button.field-value,
+html[data-theme="dark"] .search-field input{ color:var(--text-on-light); }
+html[data-theme="dark"] .filter-bar{ background:rgba(23,37,27,.92); }
+html[data-theme="dark"] .tab-nav{ background:rgba(23,37,27,.97); }
+html[data-theme="dark"] .map-frame iframe{ filter:grayscale(.2) sepia(.06) invert(.92) hue-rotate(180deg); }
+html[data-theme="dark"] .map-frame .leaflet-tile-pane{ filter:grayscale(.25) invert(.92) hue-rotate(180deg) brightness(.95); }
+html[data-theme="dark"] .map-frame .leaflet-popup-content-wrapper,
+html[data-theme="dark"] .map-frame .leaflet-popup-tip{ background:var(--pine-800); color:var(--text-on-dark); }

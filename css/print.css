@@ -1,0 +1,172 @@
+/* ============================================================
+   PRINT.CSS
+   Only applied when actually printing (media="print" on the link tag).
+   Redesigned as an actual printed-document layout, not just "hide the
+   nav and hope for the best": a branded letterhead, deliberate
+   typography, and a clean receipt/itinerary structure — built for
+   confirmation.html (a receipt) and trip.html (an itinerary), but the
+   stripping rules below apply safely to any page that gets printed.
+   ============================================================ */
+
+@media print {
+  /* ---------- strip everything that only makes sense on screen ---------- */
+  .announce-bar,
+  .site-header,
+  .site-footer,
+  .nav-toggle,
+  .theme-toggle,
+  .toast,
+  .lightbox,
+  .datepicker-popover,
+  .summary-bar-mobile,
+  .skip-link,
+  .back-to-top,
+  .compare-tray,
+  .modal-overlay,
+  a.btn,
+  button{
+    display: none !important;
+  }
+
+  [data-stop-remove]{ display: none !important; }
+
+  /* keep dates readable — the trip page's check-in/check-out are real
+     content shown as <button> elements, not actions, so the blanket
+     button-hiding rule above shouldn't swallow them */
+  [data-stop-checkin],
+  [data-stop-checkout]{
+    display: inline !important;
+    color: #262117 !important;
+    font-weight: 700 !important;
+  }
+
+  /* ---------- page + typography ---------- */
+  @page{
+    margin: 1.8cm 1.6cm;
+  }
+  html, body{
+    background: #fff !important;
+  }
+  body{
+    color: #262117 !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: 11.5pt;
+    line-height: 1.5;
+  }
+  main{
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  h1, h2, h3, h4{
+    font-family: Georgia, 'Times New Roman', serif !important;
+    color: #1c2b1e !important;
+    break-after: avoid;
+  }
+  a{ color: #262117 !important; text-decoration: none !important; }
+  a[href]::after{ content: ""; }
+
+  /* ---------- the letterhead ----------
+     .print-only elements are display:none on screen (see base.css) and
+     only appear here — a masthead every printed page gets, instead of
+     an orphaned receipt with no source or date on it. */
+  .print-only{ display: block !important; }
+  .print-letterhead{
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    margin-bottom: 26px;
+    border-bottom: 2px solid #9C7B3E;
+  }
+  .print-letterhead-brand{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 19pt;
+    font-weight: 700;
+    letter-spacing: .01em;
+    color: #1c2b1e;
+  }
+  .print-letterhead-meta{
+    text-align: right;
+    font-size: 9.5pt;
+    color: #6b6355;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .print-letterhead-meta span:first-child{
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #9C7B3E;
+  }
+
+  /* ---------- confirmation page as a receipt ---------- */
+  .confirm-mark{ box-shadow: none !important; }
+  .confirm-code{
+    border: 1px dashed #9C7B3E !important;
+    background: #faf6ec !important;
+    color: #1c2b1e !important;
+    border-radius: 6px;
+  }
+
+  [style*="background:var(--parchment-soft)"],
+  div[style*="border:1px solid var(--parchment-line)"]{
+    background: #fff !important;
+    border: 1px solid #d8d0bd !important;
+  }
+
+  .price-breakdown{
+    border: 1px solid #d8d0bd !important;
+    border-radius: 6px;
+    padding: 4px 16px !important;
+  }
+  .price-breakdown .row{
+    color: #262117 !important;
+    border-bottom: 1px solid #ece6d6;
+    padding-block: 8px !important;
+  }
+  .price-breakdown .row.total{
+    border-top: 2px solid #9C7B3E;
+    border-bottom: none;
+    font-weight: 700;
+    font-size: 12.5pt;
+    margin-top: 4px;
+  }
+
+  /* ---------- trip itinerary as a document ---------- */
+  [data-trip-summary]{
+    background: #faf6ec !important;
+    color: #1c2b1e !important;
+    border: 1px solid #9C7B3E !important;
+    border-radius: 6px;
+  }
+  [data-trip-summary] *{ color: #1c2b1e !important; }
+
+  .trip-stop{
+    border: 1px solid #d8d0bd !important;
+    border-radius: 6px;
+    break-inside: avoid;
+    padding: 14px !important;
+    margin-bottom: 12px !important;
+  }
+  .trip-stop img{
+    width: 64px !important;
+    height: 64px !important;
+    border: 1px solid #d8d0bd;
+  }
+
+  /* ---------- a quiet footer note on every printed page ---------- */
+  main::after{
+    content: "Fernhollow — a portfolio booking demo. No real payment was taken.";
+    display: block;
+    margin-top: 32px;
+    padding-top: 12px;
+    border-top: 1px solid #d8d0bd;
+    font-size: 8.5pt;
+    color: #948c7c;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+}
