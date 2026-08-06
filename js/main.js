@@ -149,11 +149,24 @@ function trapFocus(container, onEscape) {
     }
   });
   let touchStartY = null;
-  links.addEventListener("touchstart", (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  let touchStartScrollTop = 0;
+  links.addEventListener("touchstart", (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchStartScrollTop = links.scrollTop;
+  }, { passive: true });
   links.addEventListener("touchend", (e) => {
     if (touchStartY === null) return;
     const delta = touchStartY - e.changedTouches[0].clientY;
-    if (delta > 60) close(); // swiped up
+    // Swiping up 60px+ closes the menu, but only if that touch didn't
+    // actually scroll the list — with the Explore submenu open, the
+    // menu can run taller than the screen, and a genuine scroll drag
+    // has exactly the same upward finger motion as the dismiss swipe.
+    // Without this check, scrolling down the list would close the
+    // whole menu out from under you, which is exactly what was
+    // happening before: it only worked if you scrolled so fast the
+    // list barely moved before your finger lifted.
+    const actuallyScrolled = Math.abs(links.scrollTop - touchStartScrollTop) > 4;
+    if (delta > 60 && !actuallyScrolled) close();
     touchStartY = null;
   }, { passive: true });
 })();

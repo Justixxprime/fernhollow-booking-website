@@ -255,10 +255,17 @@
 .filter-chips-scroll::-webkit-scrollbar{ height:4px; }
 .filter-chips-scroll::-webkit-scrollbar-track{ background:transparent; }
 .filter-chips-scroll::-webkit-scrollbar-thumb{ background:var(--brass); border-radius:10px; }
-.filter-right{ display:flex; align-items:center; gap:12px; }
+.filter-right{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; min-width:0; }
 .filter-select{
   border:1px solid var(--parchment-line); background:var(--parchment-soft); border-radius:var(--radius-pill);
   padding:9px 16px; font-size:.85rem; font-weight:600;
+  /* A <select>'s native minimum width is set by its own content (its
+     current option text, sometimes its widest option), and flex items
+     don't shrink below that intrinsic minimum by default — which was
+     the actual last source of the page nudging a few pixels past a
+     320px-wide screen. min-width:0 lets it actually shrink to fit
+     instead of holding the row open past the edge of the viewport. */
+  min-width:0; max-width:100%;
 }
 .results-count{ font-size:.85rem; color:var(--text-on-light-soft); margin-block:20px 6px; }
 
@@ -269,9 +276,22 @@
 }
 .filter-drawer{
   position:fixed; inset:0; z-index:200; background:rgba(10,14,8,.55); backdrop-filter:blur(2px);
-  opacity:0; pointer-events:none; transition:opacity .3s; overflow:hidden;
+  opacity:0; visibility:hidden; pointer-events:none; overflow:hidden;
+  /* Being position:fixed, this (and its transformed-offscreen child panel
+     below) is positioned relative to the viewport itself, which sits
+     outside the normal box containment that a plain overflow:hidden
+     ancestor relies on — in practice that meant the closed drawer's
+     panel, despite being genuinely invisible and unclickable, could
+     still nudge the page's horizontal scroll width by a few pixels in
+     some browsers. visibility:hidden is the one property browsers
+     reliably exclude from scroll-area calculations regardless of
+     positioning context, so this closes that gap at the source rather
+     than papering over it. visibility switches to hidden only once the
+     .3s fade-out finishes, so the open/close animation looks identical
+     to before. */
+  transition:opacity .3s, visibility 0s .3s;
 }
-.filter-drawer.is-open{ opacity:1; pointer-events:auto; }
+.filter-drawer.is-open{ opacity:1; visibility:visible; pointer-events:auto; transition:opacity .3s; }
 .filter-drawer-panel{
   position:absolute; top:0; right:0; bottom:0; width:min(90vw,380px); background:var(--parchment-soft);
   display:flex; flex-direction:column; transform:translateX(100%); transition:transform .35s var(--ease-soft);
@@ -374,4 +394,16 @@
 
 /* ---------- credit strip ---------- */
 .built-by{ font-size:.8rem; color:var(--text-on-dark-soft); }
+
+/* rewards.js builds the status card with inline styles (grid-template-
+   columns:1fr auto, min-width:180px on the points box), which left no
+   way for it to shrink on a narrow phone — that fixed-width column plus
+   the text column's own minimum content width added up to more than a
+   320px screen, and being inline styles, only an !important rule here
+   can actually override them. Stacks to one column and lets the points
+   box relax to full width instead of holding a hard minimum. */
+@media (max-width:480px){
+  .rewards-status-card{ grid-template-columns:1fr !important; }
+  .rewards-points-box{ min-width:0 !important; width:100%; }
+}
 

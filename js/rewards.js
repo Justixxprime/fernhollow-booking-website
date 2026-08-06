@@ -24,7 +24,7 @@ function initRewardsPage() {
   const summary = document.querySelector("[data-rewards-summary]");
   if (summary) {
     summary.innerHTML = `
-      <div style="background:var(--pine-800,#16241C);color:var(--text-on-dark);border-radius:var(--radius-lg);padding:32px;display:grid;gap:24px;grid-template-columns:1fr auto;align-items:center;">
+      <div class="rewards-status-card" style="background:var(--pine-800,#16241C);color:var(--text-on-dark);border-radius:var(--radius-lg);padding:32px;display:grid;gap:24px;grid-template-columns:1fr auto;align-items:center;">
         <div>
           <p style="font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em;font-size:.75rem;color:var(--brass-light);">Your status</p>
           <h2 style="font-size:2rem;margin-top:6px;">${tier.emoji} ${tier.name}</h2>
@@ -36,7 +36,7 @@ function initRewardsPage() {
               : `<p style="margin-top:14px;color:var(--text-on-dark-soft);">You've reached the top tier. Thank you for booking with us this many times, genuinely.</p>`
           }
         </div>
-        <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:var(--radius-md);padding:22px 28px;min-width:180px;">
+        <div class="rewards-points-box" style="text-align:center;background:rgba(255,255,255,.06);border-radius:var(--radius-md);padding:22px 28px;min-width:180px;">
           <div style="font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--brass-light);">${points.toLocaleString()}</div>
           <div style="font-size:.8rem;color:var(--text-on-dark-soft);margin-top:2px;">points · worth ${money(Math.floor(points / 100) * 1)} off</div>
           <div style="font-size:.72rem;color:var(--text-on-dark-soft);margin-top:10px;">${history.length} completed stay${history.length === 1 ? "" : "s"}</div>
