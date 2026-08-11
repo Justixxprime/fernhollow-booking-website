@@ -3,7 +3,7 @@
    Strategy:
    - Precache the core "app shell" (pages, CSS, JS) on install.
    - Same-origin navigations: network-first, falling back to the
-     cached copy (or /404.html) when offline, so content stays
+     cached copy (or 404.html) when offline, so content stays
      fresh whenever there's a connection.
    - Same-origin CSS/JS: cache-first, refreshed in the background
      (stale-while-revalidate), so repeat visits feel instant.
@@ -13,44 +13,64 @@
    Bump CACHE_VERSION any time the shell files below change
    meaningfully, so returning visitors pick up the new files
    instead of a stale cached copy.
+
+   NOTE ON PATHS: this file lives under a project subpath on GitHub
+   Pages (e.g. /fernhollow-booking-website/), not the domain root.
+   Every path below is written WITHOUT a leading "/" so it resolves
+   relative to this script's own location (self.location), landing
+   correctly inside that subpath. A leading "/" would resolve
+   against the domain root instead and silently 404 — that's what
+   this whole app shell was doing until this fix.
    ============================================================ */
 
-const CACHE_VERSION = "fernhollow-v3";
+const CACHE_VERSION = "fernhollow-v4";
 
 const APP_SHELL = [
-  "/",
-  "/index.html",
-  "/stays.html",
-  "/stay-detail.html",
-  "/gallery.html",
-  "/locations.html",
-  "/saved.html",
-  "/rewards.html",
-  "/about.html",
-  "/contact.html",
-  "/compare.html",
-  "/blog.html",
-  "/404.html",
-  "/css/tokens.css",
-  "/css/base.css",
-  "/css/components.css",
-  "/css/pages.css",
-  "/js/data.js",
-  "/js/booking-state.js",
-  "/js/main.js",
-  "/js/cards.js",
-  "/manifest.json",
-  "/browserconfig.xml",
-  "/favicon.ico",
-  "/icons/favicon-16x16.png",
-  "/icons/favicon-32x32.png",
-  "/icons/favicon-48x48.png",
-  "/icons/apple-touch-icon.png",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png",
-  "/icons/icon-maskable-192.png",
-  "/icons/icon-maskable-512.png",
+  "./",
+  "index.html",
+  "stays.html",
+  "stay-detail.html",
+  "gallery.html",
+  "locations.html",
+  "saved.html",
+  "rewards.html",
+  "about.html",
+  "contact.html",
+  "compare.html",
+  "blog.html",
+  "404.html",
+  "css/tokens.css",
+  "css/base.css",
+  "css/components.css",
+  "css/pages.css",
+  "js/data.js",
+  "js/booking-state.js",
+  "js/main.js",
+  "js/cards.js",
+  "manifest.json",
+  "browserconfig.xml",
+  "favicon.ico",
+  "icons/favicon-16x16.png",
+  "icons/favicon-32x32.png",
+  "icons/favicon-48x48.png",
+  "icons/apple-touch-icon.png",
+  "icons/icon-192.png",
+  "icons/icon-512.png",
+  "icons/icon-maskable-192.png",
+  "icons/icon-maskable-512.png",
 ];
+
+// The service worker's own scope (e.g. https://…/fernhollow-booking-website/)
+// gives us the subpath prefix once, so the fetch handler below can strip it
+// off an incoming request's pathname and compare like-for-like, regardless
+// of whether this site ends up served from a subpath or a domain root.
+const SCOPE_PATH = new URL(self.registration.scope).pathname;
+
+function relativePath(url) {
+  return url.pathname.startsWith(SCOPE_PATH)
+    ? url.pathname.slice(SCOPE_PATH.length)
+    : url.pathname;
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -88,12 +108,13 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
           return res;
         })
-        .catch(() => caches.match(req).then((cached) => cached || caches.match("/404.html")))
+        .catch(() => caches.match(req).then((cached) => cached || caches.match("404.html")))
     );
     return;
   }
 
-  if (url.pathname.startsWith("/css/") || url.pathname.startsWith("/js/")) {
+  const relPath = relativePath(url);
+  if (relPath.startsWith("css/") || relPath.startsWith("js/")) {
     // Network-first, not cache-first: this site is under active development,
     // and a cache-first strategy here was silently serving stale JS/CSS after
     // updates — a real fix could ship and still not show up until the cache

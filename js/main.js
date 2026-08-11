@@ -936,7 +936,11 @@ function tagOutgoingImage(slug) {
    this is progressive enhancement, not a requirement. */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {
+    // Relative, not "/sw.js": this site lives under a project subpath on
+    // GitHub Pages (e.g. /fernhollow-booking-website/), and a leading "/"
+    // would register against the domain root instead — where sw.js
+    // doesn't exist — silently failing every session.
+    navigator.serviceWorker.register("sw.js").catch(() => {
       /* Offline support just won't be available this session — the
          rest of the site works fine without it. */
     });
