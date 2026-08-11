@@ -56,6 +56,14 @@ body{ overflow-x:hidden; max-width:100%;
   color:var(--text-on-light);
   line-height:1.5;
   -webkit-font-smoothing:antialiased;
+  /* Installed as a home-screen app (display:standalone), iOS/Android give
+     the page the ENTIRE screen — no Safari/Chrome chrome to sit the
+     status bar / notch on top of anymore. Without this, the fixed
+     announce bar and header render straight under the status bar icons
+     instead of below them. background matches the header so the strip
+     reads as intentional, not a stray gap. */
+  padding-top:env(safe-area-inset-top);
+  background-color:var(--pine-900);
 }
 img,picture,video,canvas,svg{ display:block; max-width:100%; }
 a{ color:inherit; text-decoration:none; }
@@ -184,6 +192,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   background:linear-gradient(90deg,var(--brass-dark),var(--brass));
   color:#241705; font-size:.85rem; font-weight:700;
   text-align:center; padding:10px var(--gutter); position:relative;
+  /* Pulls the bar up to fill the safe-area gap body's padding-top just
+     created, then pads its own top by that same amount so the gold
+     background — not the dark body background — covers the notch/status
+     bar strip, with the text itself still sitting safely below it. */
+  margin-top:calc(-1 * env(safe-area-inset-top));
+  padding-top:calc(10px + env(safe-area-inset-top));
 }
 .announce-bar a{ text-decoration:underline; text-underline-offset:2px; }
 .announce-bar[hidden]{ display:none; }
@@ -194,7 +208,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 .announce-close:hover{ opacity:1; }
 .announce-close svg{ width:14px;height:14px; }
-@media (max-width:600px){ .announce-bar{ font-size:.78rem; padding:10px 44px; } }
+@media (max-width:600px){ .announce-bar{ font-size:.78rem; padding:10px 44px; padding-top:calc(10px + env(safe-area-inset-top)); } }
 
 /* ---------- header / nav ---------- */
 .site-header{
@@ -432,7 +446,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 @media (max-width:920px){
   .nav-links{
-    position:fixed; inset:78px 0 0 0; z-index:55;
+    position:fixed; top:calc(78px + env(safe-area-inset-top)); right:0; bottom:0; left:0; z-index:55;
     background:var(--pine-900);
     flex-direction:column; justify-content:flex-start; align-items:stretch;
     padding:28px var(--gutter) 100px; gap:0;

@@ -473,13 +473,13 @@
 .lightbox-stage{ width:min(88vw,1100px); height:min(72vh,720px); display:flex; align-items:center; justify-content:center; }
 .lightbox-stage img{ max-width:100%; max-height:100%; object-fit:contain; border-radius:10px; }
 .lightbox-close{
-  position:absolute; top:22px; right:24px; width:44px;height:44px;border-radius:50%;
+  position:absolute; top:calc(22px + env(safe-area-inset-top)); right:24px; width:44px;height:44px;border-radius:50%;
   background:rgba(245,239,223,.1); color:var(--text-on-dark); display:flex;align-items:center;justify-content:center;
   transition:background .2s;
 }
 .lightbox-close:hover{ background:rgba(245,239,223,.2); }
 .lightbox-close svg{ width:18px;height:18px; }
-.lightbox-count{ position:absolute; top:30px; left:28px; color:var(--text-on-dark-soft); font-family:var(--font-mono); font-size:.85rem; }
+.lightbox-count{ position:absolute; top:calc(30px + env(safe-area-inset-top)); left:28px; color:var(--text-on-dark-soft); font-family:var(--font-mono); font-size:.85rem; }
 .lightbox-arrow{
   position:absolute; top:50%; transform:translateY(-50%); width:50px;height:50px;border-radius:50%;
   background:rgba(245,239,223,.1); color:var(--text-on-dark); display:flex;align-items:center;justify-content:center;
@@ -550,7 +550,7 @@
 
 /* ---------- top nav progress bar ---------- */
 .nav-progress{
-  position:fixed; top:0; left:0; height:3px; width:0; z-index:400;
+  position:fixed; top:env(safe-area-inset-top); left:0; height:3px; width:0; z-index:400;
   background:linear-gradient(90deg,var(--brass),var(--brass-light)); box-shadow:0 0 8px rgba(198,161,91,.6);
   transition:width .4s ease-out, opacity .3s .3s;
 }

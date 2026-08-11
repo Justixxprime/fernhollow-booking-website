@@ -298,7 +298,7 @@
   box-shadow:-30px 0 60px -20px rgba(0,0,0,.4);
 }
 .filter-drawer.is-open .filter-drawer-panel{ transform:translateX(0); }
-.filter-drawer-head{ display:flex; justify-content:space-between; align-items:center; padding:20px 22px; border-bottom:1px solid var(--parchment-line); }
+.filter-drawer-head{ display:flex; justify-content:space-between; align-items:center; padding:calc(20px + env(safe-area-inset-top)) 22px 20px; border-bottom:1px solid var(--parchment-line); }
 .filter-drawer-head h3{ font-size:1.2rem; }
 .filter-drawer-head button{ border:none; background:none; font-size:1.1rem; color:var(--text-on-light-soft); }
 .filter-drawer-body{ padding:22px; overflow-y:auto; overscroll-behavior:contain; flex:1; }
