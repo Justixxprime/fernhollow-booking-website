@@ -33,13 +33,13 @@ function imgSrcset(id, baseW, baseH) {
 }
 
 const PHOTO = {
-  exterior: "1473213430984-9b37e45cd8b1", // A-frame cabin, dusk, string lights
-  bedroom:  "1759101292737-24e1c5ed52d9", // neutral cabin bedroom
-  living:   "1777895868494-4e01af8487b6", // cabin living room, fireplace
-  bath:     "1776482128011-c707121f081a", // freestanding tub, forest window
-  lake:     "1759434192754-1ae85603cf8a", // misty lake at dawn
-  lodge:    "1641504681054-c5e845e183fd", // large timber lodge, snowy mountains
-  hottub:   "1647481259677-6c7fd7c0b00c", // cedar hot tub inside a cabin, mountain view
+  exterior: "https://images.unsplash.com/photo-1782226796423-8d72656a332c?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // A-frame cabin, dusk, string lights
+  bedroom:  "https://images.unsplash.com/photo-1727706572437-4fcda0cbd66f?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // neutral cabin bedroom
+  living:   "https://images.unsplash.com/photo-1680703486830-1b5af60635d7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // cabin living room, fireplace
+  bath:     "https://images.unsplash.com/photo-1770941450515-50f2b8ca380b?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // freestanding tub, forest window
+  lake:     "https://images.unsplash.com/photo-1768702133235-70b0815044f6?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // misty lake at dawn
+  lodge:    "https://images.unsplash.com/photo-1703023739133-c2e605144fbd?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // large timber lodge, snowy mountains
+  hottub:   "https://images.pexels.com/photos/14436987/pexels-photo-14436987.jpeg?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // cedar hot tub inside a cabin, mountain view
 };
 
 /* Curated per-region activity suggestions for the "Nearby" widget on
@@ -174,7 +174,7 @@ const STAYS = [
     theSpace: "Open-plan living and kitchen beneath the A-frame's full-height glass. The loft holds the primary bed; a second bedroom sits at ground level for guests who'd rather skip the ladder stairs.",
     guestAccess: "The whole cabin and private deck are yours. A locked owner's shed by the driveway is off-limits, everything else is fair game.",
     host: { name: "Marguerite", since: 2019, responseTime: "within an hour" },
-    images: [img("1697462247934-47afc5541494", 1600, 1200), img(PHOTO.living, 1200, 1200), img(PHOTO.bedroom, 1200, 1200), img(PHOTO.bath, 1200, 1200), img(PHOTO.lake, 1200, 1200)], // exterior: real photo, A-frame at dusk
+    images: [img("1697462247934-47afc5541494", 1600, 1200), img("https://images.unsplash.com/photo-1603039531759-1a1bbe4f9f94?q=80&w=501&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 1200, 1200), img("https://images.pexels.com/photos/38881363/pexels-photo-38881363.jpeg?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 1200, 1200), img("https://images.pexels.com/photos/13945431/pexels-photo-13945431.jpeg?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 1200, 1200), img("https://images.pexels.com/photos/9940807/pexels-photo-9940807.jpeg?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 1200, 1200)], // exterior: real photo, A-frame at dusk
     sleeping: [
       { label: "Loft bedroom", detail: "1 queen bed" },
       { label: "Ground bedroom", detail: "2 twin beds" },

@@ -5,7 +5,7 @@ const BLOG_POSTS = [
     excerpt: "The back roads locals actually drive, and the two-week window most visitors miss entirely.",
     date: "October 3, 2025",
     readMins: 6,
-    image: "https://images.unsplash.com/photo-1473213430984-9b37e45cd8b1?auto=format&fit=crop&w=1400&h=900&q=80",
+    image: "https://images.pexels.com/photos/14614869/pexels-photo-14614869.jpeg?auto=format&fit=crop&w=1400&h=900&q=80",
     tags: ["Catskills", "Fall"],
     body: [
       "Peak color in the Catskills is shorter and earlier than most people plan for, usually the first two weeks of October at the elevations around Birch Hollow, and it moves fast once it starts.",
@@ -19,7 +19,7 @@ const BLOG_POSTS = [
     excerpt: "Six years of hosting taught us it's rarely the amenities. It's almost always the absence of a schedule.",
     date: "August 14, 2025",
     readMins: 5,
-    image: "https://images.unsplash.com/photo-1777895868494-4e01af8487b6?auto=format&fit=crop&w=1400&h=900&q=80",
+    image: "https://images.pexels.com/photos/15558300/pexels-photo-15558300.jpeg?auto=format&fit=crop&w=1400&h=900&q=80",
     tags: ["Hosting", "Reflections"],
     body: [
       "The guests who leave the best reviews almost never mention the hot tub or the view. They mention not knowing what day it was by Wednesday.",
@@ -33,7 +33,7 @@ const BLOG_POSTS = [
     excerpt: "A shorter list than you'd think, and two things almost everyone forgets.",
     date: "May 2, 2025",
     readMins: 4,
-    image: "https://images.unsplash.com/photo-1759101292737-24e1c5ed52d9?auto=format&fit=crop&w=1400&h=900&q=80",
+    image: "https://images.unsplash.com/photo-1760095435041-3957a2fa220e?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=1400&h=900&q=80",
     tags: ["Packing", "Practical"],
     body: [
       "Layers matter more than any single heavy item. A cabin at elevation can swing 25 degrees between a sunny afternoon and a clear night, and one warm layer beats one heavy coat every time.",

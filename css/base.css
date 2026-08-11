@@ -5,6 +5,12 @@
 *,*::before,*::after{ box-sizing:border-box; }
 *{ margin:0; }
 
+/* Android Chrome shows a gray flash on every tap by default (buttons,
+   links, cards) unless this is turned off — it's harmless but reads as
+   unpolished next to the site's own hover/active states, which already
+   provide tap feedback. */
+html{ -webkit-tap-highlight-color:transparent; }
+
 /* The native `hidden` attribute is only display:none by default because
    of a low-priority browser rule — any component class that sets its own
    `display` (`.btn{ display:inline-flex }` was the case that surfaced
@@ -12,6 +18,17 @@
    over it. This makes `hidden` win no matter what, everywhere, which is
    what every call site already assumed it did. */
 [hidden]{ display:none !important; }
+
+/* iOS Safari (and a few other mobile browsers) auto-zoom the whole page
+   in the moment you focus any text input, select, or textarea whose
+   computed font-size is under 16px — several form fields site-wide sat
+   just below that (some as low as .85rem, ~13.6px: the stays-page search
+   box, the sort dropdown, the compare-page pickers), so tapping into
+   them zoomed the page in and left it that way until you manually
+   pinched back out. Every specific instance found is fixed directly at
+   its own rule, and this is the backstop: whatever's left, on any
+   device, always renders at a proper minimum size. */
+input, select, textarea{ font-size:16px !important; }
 
 /* Every anchor jump-target site-wide (stay-detail's #overview/#map/#reviews,
    contact.html's #faq, etc.) needs this — without it, the sticky 78px
@@ -149,7 +166,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .icon-btn.is-active{ background:var(--brass); border-color:var(--brass); color:var(--pine-800); }
 
 .back-to-top{
-  position:fixed; right:24px; bottom:24px; z-index:150;
+  position:fixed; right:24px; bottom:calc(24px + env(safe-area-inset-bottom)); z-index:150;
   width:44px; height:44px; border-radius:50%; border:1px solid var(--parchment-line);
   background:var(--pine-800); color:var(--text-on-dark); box-shadow:0 12px 30px -12px rgba(0,0,0,.4);
   display:flex; align-items:center; justify-content:center; font-size:.95rem;
@@ -256,7 +273,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* ---------- command palette ---------- */
 .cmdk-overlay{
-  position:fixed; inset:0; z-index:300; background:rgba(10,14,8,.6); backdrop-filter:blur(3px);
+  position:fixed; inset:0; z-index:300; background:rgba(10,14,8,.6); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
   display:flex; align-items:flex-start; justify-content:center; padding-top:12vh;
 }
 .cmdk-box{
@@ -265,7 +282,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 
 .modal-overlay{
-  position:fixed; inset:0; z-index:320; background:rgba(10,14,8,.6); backdrop-filter:blur(3px);
+  position:fixed; inset:0; z-index:320; background:rgba(10,14,8,.6); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
   display:flex; align-items:center; justify-content:center; padding:20px;
   opacity:0; pointer-events:none; transition:opacity .25s var(--ease);
 }
@@ -285,7 +302,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .cmdk-input-row input{ flex:1; border:none; background:none; font-size:1rem; color:var(--text-on-light); }
 .cmdk-input-row input:focus{ outline:none; }
 .cmdk-input-row kbd{ font-family:var(--font-mono); font-size:.72rem; border:1px solid var(--parchment-line); border-radius:5px; padding:2px 7px; color:var(--text-on-light-soft); }
-.cmdk-list{ max-height:50vh; overflow-y:auto; padding:8px; }
+.cmdk-list{ max-height:50vh; overflow-y:auto; overscroll-behavior:contain; padding:8px; }
 .cmdk-item{
   display:flex; align-items:center; gap:14px; width:100%; padding:12px 14px; border-radius:10px;
   border:none; background:none; text-align:left; font-size:.9rem;
@@ -426,7 +443,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
        falls past the bottom edge is simply unreachable, not just hidden.
        The extra bottom padding above keeps the last item from sitting
        flush against the edge once you do scroll to it. */
-    overflow-y:auto; -webkit-overflow-scrolling:touch;
+    overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
   }
   .nav-links a{ padding:16px 4px; border-bottom:1px solid var(--pine-line); font-size:1.05rem; border-radius:0; }
   .nav-links a::after{ display:none; }
@@ -458,7 +475,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .select-wrap:focus-within i{ transform:translateY(-50%) rotate(180deg); color:var(--brass); }
 .compare-picker select{
   width:100%; padding:13px 40px 13px 16px; border-radius:var(--radius-md); border:1px solid var(--parchment-line);
-  background:var(--parchment); font-size:.92rem; font-weight:600; color:var(--text-on-light);
+  background:var(--parchment); font-size:16px; font-weight:600; color:var(--text-on-light);
   appearance:none; -webkit-appearance:none; cursor:pointer;
   transition:border-color .2s, box-shadow .2s;
 }

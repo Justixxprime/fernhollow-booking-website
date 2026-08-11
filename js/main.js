@@ -680,31 +680,50 @@ paintTripBadge();
 const Account = {
   key: "fernhollow_account",
   sessionKey: "fernhollow_account_session",
+  // "Signed in" used to live only in sessionStorage, which every browser
+  // wipes the moment the tab or browser closes — the account itself was
+  // never actually lost, but you'd land back on the sign-in screen every
+  // time you came back, which looks exactly like it forgot you. This
+  // splits it in two: with Remember me checked (the default), the signed
+  // -in state goes in localStorage and survives closing the browser
+  // entirely; unchecked, it behaves like before and only lasts the tab.
+  rememberKey: "fernhollow_account_remember",
   get() {
     try { return JSON.parse(localStorage.getItem(this.key)); } catch { return null; }
   },
   isLoggedIn() {
-    return !!this.get() && sessionStorage.getItem(this.sessionKey) === "1";
+    if (!this.get()) return false;
+    return localStorage.getItem(this.rememberKey) === "1" || sessionStorage.getItem(this.sessionKey) === "1";
   },
-  signUp(name, email, password) {
+  _setSession(remember) {
+    if (remember) {
+      localStorage.setItem(this.rememberKey, "1");
+    } else {
+      sessionStorage.setItem(this.sessionKey, "1");
+      localStorage.removeItem(this.rememberKey);
+    }
+  },
+  signUp(name, email, password, remember = true) {
     localStorage.setItem(this.key, JSON.stringify({ name, email, password, joinedAt: new Date().toISOString() }));
-    sessionStorage.setItem(this.sessionKey, "1");
+    this._setSession(remember);
     paintAccountNav();
   },
-  logIn(email, password) {
+  logIn(email, password, remember = true) {
     const acc = this.get();
     if (!acc || acc.email.toLowerCase() !== email.trim().toLowerCase() || acc.password !== password) return false;
-    sessionStorage.setItem(this.sessionKey, "1");
+    this._setSession(remember);
     paintAccountNav();
     return true;
   },
   logOut() {
     sessionStorage.removeItem(this.sessionKey);
+    localStorage.removeItem(this.rememberKey);
     paintAccountNav();
   },
   forget() {
     localStorage.removeItem(this.key);
     sessionStorage.removeItem(this.sessionKey);
+    localStorage.removeItem(this.rememberKey);
     paintAccountNav();
   },
 };

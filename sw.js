@@ -15,7 +15,7 @@
    instead of a stale cached copy.
    ============================================================ */
 
-const CACHE_VERSION = "fernhollow-v2";
+const CACHE_VERSION = "fernhollow-v3";
 
 const APP_SHELL = [
   "/",
@@ -40,6 +40,16 @@ const APP_SHELL = [
   "/js/main.js",
   "/js/cards.js",
   "/manifest.json",
+  "/browserconfig.xml",
+  "/favicon.ico",
+  "/icons/favicon-16x16.png",
+  "/icons/favicon-32x32.png",
+  "/icons/favicon-48x48.png",
+  "/icons/apple-touch-icon.png",
+  "/icons/icon-192.png",
+  "/icons/icon-512.png",
+  "/icons/icon-maskable-192.png",
+  "/icons/icon-maskable-512.png",
 ];
 
 self.addEventListener("install", (event) => {

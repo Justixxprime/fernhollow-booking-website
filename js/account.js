@@ -52,7 +52,7 @@ function initAccountPage() {
       errorEl.hidden = false;
       return;
     }
-    if (!Account.logIn(email, password)) {
+    if (!Account.logIn(email, password, document.getElementById("signin-remember").checked)) {
       errorEl.textContent = "That email or password doesn't match this device's account.";
       errorEl.hidden = false;
       return;
@@ -81,7 +81,7 @@ function initAccountPage() {
       return;
     }
     errorEl.hidden = true;
-    Account.signUp(name, email, password);
+    Account.signUp(name, email, password, document.getElementById("signup-remember").checked);
     renderAccountState();
     showToast(`Account created, welcome ${name.split(" ")[0]}`);
     returnAfterAuth();
