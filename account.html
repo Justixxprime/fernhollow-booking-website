@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/print.css" media="print">
+<link rel="stylesheet" href="css/features.css">
 <meta property="og:title" content="Your Account: Fernhollow">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://fernhollow.example/account.html">
@@ -67,6 +68,8 @@
       <a href="quiz.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Find your stay</a>
       <a href="trip.html"><i class="fa-solid fa-suitcase-rolling"></i> Trip planner</a>
       <a href="gift.html"><i class="fa-solid fa-gift"></i> Gift a stay</a>
+      <a href="gift-registry.html"><i class="fa-solid fa-heart-circle-check"></i> Gift registry</a>
+      <a href="experiences.html"><i class="fa-solid fa-campground"></i> Experiences</a>
       <a href="rewards.html"><i class="fa-solid fa-medal"></i> Rewards</a>
       <a href="blog.html"><i class="fa-solid fa-book-open"></i> Journal</a>
       </div>
@@ -102,9 +105,17 @@
     <p style="max-width:56ch;margin-top:16px;color:var(--text-on-light-soft);">Demo note: this isn't real authentication, there's no server to check a password against. Your account lives only in this browser's storage, same as gift codes and referral codes elsewhere on the site. Don't use a real password here.</p>
   </section>
 
-  <section class="wrap section-tight" style="max-width:480px;">
+  <section class="wrap section-tight">
     <!-- ============ LOGGED OUT: sign in / sign up ============ -->
-    <div data-account-guest>
+    <!-- Capped at 480px and centered here, on this inner wrapper only —
+         a short login form reads best narrow. It used to be the whole
+         <section> above that was capped at 480px, which meant the
+         account HUB below (the 4 feature cards) got dragged down to a
+         480px-wide column too, on every screen size including desktop —
+         four cards squeezed into ~100px-wide slivers with no room to
+         breathe. Splitting the cap onto just the form fixes that
+         without touching the form's own look at all. -->
+    <div data-account-guest style="max-width:480px;margin-inline:auto;">
       <div class="detail-block">
         <div style="display:flex;gap:8px;margin-bottom:20px;">
           <button type="button" class="btn btn-primary btn-sm" data-tab-btn="signin" style="flex:1;">Sign in</button>
@@ -152,38 +163,41 @@
     </div>
 
     <!-- ============ LOGGED IN: account hub ============ -->
-    <div data-account-hub hidden>
-      <div class="detail-block" style="text-align:center;">
+    <!-- Full section width now (see comment above) — the profile block
+         stays narrow and centered on its own, the card grid gets the
+         room it needs to lay out as real cards instead of slivers. -->
+    <div data-account-hub hidden style="max-width:900px;margin-inline:auto;">
+      <div class="detail-block" style="text-align:center;max-width:420px;margin-inline:auto;">
         <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(160deg,var(--brass-light),var(--brass-dark));display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--pine-900);" data-account-avatar></div>
         <h2 style="font-size:1.3rem;" data-account-name></h2>
         <p style="color:var(--text-on-light-soft);font-size:.9rem;margin-top:4px;" data-account-email></p>
         <p style="color:var(--text-on-light-soft);font-size:.78rem;margin-top:10px;" data-account-since></p>
       </div>
 
-      <div class="grid feature-grid" style="margin-top:24px;" data-reveal>
-        <a href="rewards.html" class="feature-card" style="text-decoration:none;">
-          <i class="fa-solid fa-medal" style="font-size:1.3rem;color:var(--brass-dark);"></i>
-          <h3 style="margin-top:12px;font-size:1rem;">Rewards &amp; bookings</h3>
-          <p style="margin-top:6px;font-size:.85rem;color:var(--text-on-light-soft);">See your points, tier, and booking history.</p>
+      <div class="grid feature-grid account-feature-grid" data-reveal>
+        <a href="rewards.html" class="feature-card">
+          <div class="icon-wrap"><i class="fa-solid fa-medal"></i></div>
+          <h3>Rewards &amp; bookings</h3>
+          <p>See your points, tier, and booking history.</p>
         </a>
-        <a href="saved.html" class="feature-card" style="text-decoration:none;">
-          <i class="fa-solid fa-heart" style="font-size:1.3rem;color:var(--brass-dark);"></i>
-          <h3 style="margin-top:12px;font-size:1rem;">Saved stays</h3>
-          <p style="margin-top:6px;font-size:.85rem;color:var(--text-on-light-soft);">Everything you've bookmarked.</p>
+        <a href="saved.html" class="feature-card">
+          <div class="icon-wrap"><i class="fa-solid fa-heart"></i></div>
+          <h3>Saved stays</h3>
+          <p>Everything you've bookmarked.</p>
         </a>
-        <a href="trip.html" class="feature-card" style="text-decoration:none;">
-          <i class="fa-solid fa-suitcase-rolling" style="font-size:1.3rem;color:var(--brass-dark);"></i>
-          <h3 style="margin-top:12px;font-size:1rem;">Trip planner</h3>
-          <p style="margin-top:6px;font-size:.85rem;color:var(--text-on-light-soft);">Your in-progress multi-stop trip.</p>
+        <a href="trip.html" class="feature-card">
+          <div class="icon-wrap"><i class="fa-solid fa-suitcase-rolling"></i></div>
+          <h3>Trip planner</h3>
+          <p>Your in-progress multi-stop trip.</p>
         </a>
-        <a href="manage-booking.html" class="feature-card" style="text-decoration:none;">
-          <i class="fa-solid fa-suitcase" style="font-size:1.3rem;color:var(--brass-dark);"></i>
-          <h3 style="margin-top:12px;font-size:1rem;">Manage a booking</h3>
-          <p style="margin-top:6px;font-size:.85rem;color:var(--text-on-light-soft);">Look up or change a reservation.</p>
+        <a href="manage-booking.html" class="feature-card">
+          <div class="icon-wrap"><i class="fa-solid fa-suitcase"></i></div>
+          <h3>Manage a booking</h3>
+          <p>Look up or change a reservation.</p>
         </a>
       </div>
 
-      <div style="text-align:center;margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <div style="text-align:center;margin-top:36px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <button type="button" class="btn btn-ghost-light" data-account-signout>Sign out</button>
         <button type="button" class="btn btn-ghost-light" data-account-forget style="color:#b23a3a;">Delete this account</button>
       </div>
@@ -275,6 +289,8 @@
         <li><a href="contact.html">Contact</a></li>
         <li><a href="contact.html#faq">FAQ</a></li>
         <li><a href="host-dashboard.html">Host dashboard</a></li>
+        <li><a href="sustainability.html">Sustainability</a></li>
+        <li><a href="press.html">Press</a></li>
         <li><a href="sitemap.html">Sitemap</a></li>
       </ul>
     </div>
@@ -321,6 +337,7 @@
 <script src="js/data.js"></script>
 <script src="js/booking-state.js"></script>
 <script src="js/main.js"></script>
+<script src="js/features.js"></script>
 <script src="js/account.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <script>if(localStorage.getItem('fernhollow_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Page not found: Fernhollow</title>
+<title>Experiences: Fernhollow</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css">
@@ -13,16 +13,16 @@
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/print.css" media="print">
 <link rel="stylesheet" href="css/features.css">
-<meta property="og:title" content="Page not found: Fernhollow">
-<meta property="og:description" content="This page doesn't exist.">
+<meta property="og:title" content="Experiences: Fernhollow">
+<meta property="og:description" content="Bookable add-on experiences at every Fernhollow stay: guided hikes, private chefs, stargazing, and more.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://fernhollow.example/404.html">
-<meta property="og:image" content="https://images.unsplash.com/photo-1473213430984-9b37e45cd8b1?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta property="og:url" content="https://fernhollow.example/experiences.html">
+<meta property="og:image" content="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&h=630&q=80">
 <meta property="og:site_name" content="Fernhollow">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Page not found: Fernhollow">
-<meta name="twitter:description" content="This page doesn't exist.">
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1473213430984-9b37e45cd8b1?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta name="twitter:title" content="Experiences: Fernhollow">
+<meta name="twitter:description" content="Bookable add-on experiences at every Fernhollow stay: guided hikes, private chefs, stargazing, and more.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&h=630&q=80">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
@@ -50,6 +50,12 @@
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
+<div class="announce-bar" data-announce-bar>
+  <span>This is a portfolio demo: every booking flow is fully functional, no real payments are ever taken. <a href="https://justixxprime.github.io/" target="_blank" rel="noopener">See more of my work ↗</a></span>
+  <button class="announce-close" data-announce-close aria-label="Dismiss">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html">
@@ -98,24 +104,85 @@
 </header>
 
 <main id="main-content">
-  <section class="wrap error-page">
-    <p class="error-code">404</p>
-    <h1 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-top:10px;">This trail doesn't lead anywhere.</h1>
-    <p style="color:var(--text-on-light-soft);margin-top:14px;max-width:46ch;margin-inline:auto;">The page you're looking for either moved, never existed, or was a link typed from memory. Let's get you back on the path.</p>
-    <div style="display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
-      <a href="index.html" class="btn btn-primary btn-lg">Back to home</a>
-      <a href="stays.html" class="btn btn-ghost-light btn-lg">Browse all stays</a>
+
+  <section class="page-hero wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Experiences</span></div>
+    <p class="eyebrow kicker">Book something to do, not just somewhere to stay</p>
+    <h1>Add-on experiences at every stay.</h1>
+  </section>
+
+  <section class="wrap section-tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Six ways to make the trip</p>
+      <h2>Bookable extras, hosted by people who actually know the land.</h2>
+      <p>Every experience below is a demo booking, same as the stays themselves &mdash; add one to see how it'd slot into a real itinerary.</p>
     </div>
 
-    <div style="max-width:440px;margin:44px auto 0;text-align:left;">
-      <label for="lost-search" style="display:block;text-align:center;font-size:.85rem;color:var(--text-on-light-soft);margin-bottom:10px;">Or search for what you were after</label>
-      <div style="position:relative;">
-        <i class="fa-solid fa-magnifying-glass" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-on-light-soft);"></i>
-        <input id="lost-search" type="text" placeholder="A stay, a location…" style="width:100%;padding:13px 16px 13px 42px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);background:var(--parchment-soft);font-size:16px;">
+    <div class="grid feature-grid" data-reveal>
+      <div class="feature-card" style="position:relative;">
+        <span style="position:absolute;top:18px;right:18px;font-family:var(--font-mono);font-size:.72rem;font-weight:700;color:var(--brass-dark);background:var(--parchment);padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);">$85/person</span>
+        <i class="fa-solid fa-person-hiking" style="font-size:1.4rem;color:var(--brass-dark);"></i>
+        <h3 style="margin-top:14px;font-size:1.05rem;">Guided sunrise hike</h3>
+        <p style="margin-top:8px;font-size:.9rem;color:var(--text-on-light-soft);">A local guide walks you up to the best overlook near your stay before the light gets good. Coffee and a thermos included.</p>
+        <button type="button" class="btn btn-ghost-light btn-sm" style="margin-top:16px;" data-experience-add="Guided sunrise hike">Add to trip</button>
       </div>
-      <div data-lost-results style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
+      <div class="feature-card" style="position:relative;">
+        <span style="position:absolute;top:18px;right:18px;font-family:var(--font-mono);font-size:.72rem;font-weight:700;color:var(--brass-dark);background:var(--parchment);padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);">$220/party</span>
+        <i class="fa-solid fa-utensils" style="font-size:1.4rem;color:var(--brass-dark);"></i>
+        <h3 style="margin-top:14px;font-size:1.05rem;">Private chef dinner</h3>
+        <p style="margin-top:8px;font-size:.9rem;color:var(--text-on-light-soft);">A four-course dinner cooked in your cabin's own kitchen, built around whatever's good and local that week.</p>
+        <button type="button" class="btn btn-ghost-light btn-sm" style="margin-top:16px;" data-experience-add="Private chef dinner">Add to trip</button>
+      </div>
+      <div class="feature-card" style="position:relative;">
+        <span style="position:absolute;top:18px;right:18px;font-family:var(--font-mono);font-size:.72rem;font-weight:700;color:var(--brass-dark);background:var(--parchment);padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);">$60/person</span>
+        <i class="fa-solid fa-star" style="font-size:1.4rem;color:var(--brass-dark);"></i>
+        <h3 style="margin-top:14px;font-size:1.05rem;">Stargazing with an astronomer</h3>
+        <p style="margin-top:8px;font-size:.9rem;color:var(--text-on-light-soft);">A telescope, a real astronomer, and the kind of dark sky most people only see in photos. Pairs well with the site's own night-sky preview.</p>
+        <button type="button" class="btn btn-ghost-light btn-sm" style="margin-top:16px;" data-experience-add="Stargazing session">Add to trip</button>
+      </div>
+      <div class="feature-card" style="position:relative;">
+        <span style="position:absolute;top:18px;right:18px;font-family:var(--font-mono);font-size:.72rem;font-weight:700;color:var(--brass-dark);background:var(--parchment);padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);">$70/person</span>
+        <i class="fa-solid fa-canoe" style="font-size:1.4rem;color:var(--brass-dark);"></i>
+        <h3 style="margin-top:14px;font-size:1.05rem;">Guided paddle</h3>
+        <p style="margin-top:8px;font-size:.9rem;color:var(--text-on-light-soft);">Canoe or kayak, guided at a pace that suits the group, with a put-in a short drive from most stays.</p>
+        <button type="button" class="btn btn-ghost-light btn-sm" style="margin-top:16px;" data-experience-add="Guided paddle">Add to trip</button>
+      </div>
+      <div class="feature-card" style="position:relative;">
+        <span style="position:absolute;top:18px;right:18px;font-family:var(--font-mono);font-size:.72rem;font-weight:700;color:var(--brass-dark);background:var(--parchment);padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);">$140/couple</span>
+        <i class="fa-solid fa-spa" style="font-size:1.4rem;color:var(--brass-dark);"></i>
+        <h3 style="margin-top:14px;font-size:1.05rem;">Sauna &amp; soak evening</h3>
+        <p style="margin-top:8px;font-size:.9rem;color:var(--text-on-light-soft);">A slower evening built around your stay's own sauna or hot tub, with a simple wind-down ritual and no phones policy, gently enforced.</p>
+        <button type="button" class="btn btn-ghost-light btn-sm" style="margin-top:16px;" data-experience-add="Sauna and soak evening">Add to trip</button>
+      </div>
+      <div class="feature-card" style="position:relative;">
+        <span style="position:absolute;top:18px;right:18px;font-family:var(--font-mono);font-size:.72rem;font-weight:700;color:var(--brass-dark);background:var(--parchment);padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);">$45/child</span>
+        <i class="fa-solid fa-magnifying-glass" style="font-size:1.4rem;color:var(--brass-dark);"></i>
+        <h3 style="margin-top:14px;font-size:1.05rem;">Nature scavenger hunt</h3>
+        <p style="margin-top:8px;font-size:.9rem;color:var(--text-on-light-soft);">A printed trail map and a list of things to find nearby, built for kids roughly six to twelve. Prize at the end, obviously.</p>
+        <button type="button" class="btn btn-ghost-light btn-sm" style="margin-top:16px;" data-experience-add="Nature scavenger hunt">Add to trip</button>
+      </div>
     </div>
   </section>
+
+  <section class="section on-dark">
+    <div class="wrap" style="max-width:760px;">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">How it works</p>
+        <h2 style="font-size:1.9rem;">Booked alongside your stay, confirmed by the host.</h2>
+        <p style="margin-top:14px;">Add an experience from any stay's page or from here, and it shows up in your trip planner next to your dates. The host confirms timing once your reservation is locked in &mdash; no separate account, no separate checkout.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="cta-band" data-reveal>
+        <h2>Pick a stay first, then build the trip around it.</h2>
+        <a href="stays.html" class="btn btn-primary btn-lg">Browse all stays</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -215,24 +282,18 @@
 <script src="js/booking-state.js"></script>
 <script src="js/main.js"></script>
 <script src="js/features.js"></script>
+
 <script>
-  (function lostSearch() {
-    const input = document.getElementById("lost-search");
-    const results = document.querySelector("[data-lost-results]");
-    if (!input || !results) return;
-    input.addEventListener("input", () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) { results.innerHTML = ""; return; }
-      const matches = STAYS.filter((s) => s.name.toLowerCase().includes(q) || s.location.toLowerCase().includes(q)).slice(0, 5);
-      results.innerHTML = matches.length
-        ? matches.map((s) => `
-          <a href="stay-detail.html?stay=${s.slug}" style="display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;background:var(--parchment-soft);">
-            <img src="${s.images[0]}" alt="" style="width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none;">
-            <span><b style="font-size:.88rem;">${s.name}</b><br><span style="font-size:.78rem;color:var(--text-on-light-soft);">${s.location}</span></span>
-          </a>`).join("")
-        : `<p style="text-align:center;font-size:.85rem;color:var(--text-on-light-soft);">No matches. Try <a href="stays.html">browsing all stays</a> instead.</p>`;
-    });
-  })();
+document.querySelectorAll("[data-experience-add]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const name = btn.dataset.experienceAdd;
+    if (typeof showToast === "function") showToast(name + " added to your trip planner (demo)");
+    btn.disabled = true;
+    btn.textContent = "Added";
+  });
+});
 </script>
+
 </body>
+
 </html>

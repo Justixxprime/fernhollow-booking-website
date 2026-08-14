@@ -423,9 +423,13 @@ function trapFocus(container, onEscape) {
 (function themeToggle() {
   const btns = document.querySelectorAll("[data-theme-toggle]");
   if (!btns.length) return;
+  const flashTimers = new WeakMap();
   const paintIcon = () => {
     const isDark = document.documentElement.dataset.theme === "dark";
-    btns.forEach((b) => (b.innerHTML = `<i class="fa-solid ${isDark ? "fa-sun" : "fa-moon"}"></i>`));
+    btns.forEach((b) => {
+      b.innerHTML = `<i class="fa-solid ${isDark ? "fa-sun" : "fa-moon"}"></i><span class="theme-toggle-label" role="status">${isDark ? "Dark mode" : "Light mode"}</span>`;
+      b.setAttribute("aria-label", isDark ? "Dark mode is on — switch to light mode" : "Light mode is on — switch to dark mode");
+    });
   };
   paintIcon();
   btns.forEach((btn) =>
@@ -435,6 +439,17 @@ function trapFocus(container, onEscape) {
       else document.documentElement.removeAttribute("data-theme");
       localStorage.setItem("fernhollow_theme", next);
       paintIcon();
+      // Briefly show the label right after a toggle (not just on hover/focus)
+      // so tapping it on a touch device — where there's no hover at all —
+      // still confirms which mode you just landed in. paintIcon() just
+      // rebuilt this button's innerHTML, so re-query it fresh off `btn`
+      // itself rather than reusing any old reference to the span.
+      const label = btn.querySelector(".theme-toggle-label");
+      if (label) {
+        label.classList.add("is-flash");
+        clearTimeout(flashTimers.get(label));
+        flashTimers.set(label, setTimeout(() => label.classList.remove("is-flash"), 1800));
+      }
     })
   );
 })();

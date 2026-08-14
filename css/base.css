@@ -52,7 +52,6 @@ html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; max-width:100%; }
    row all rely on it), body doesn't have that problem. */
 body{ overflow-x:hidden; max-width:100%;
   font-family:var(--font-body);
-  background:var(--parchment);
   color:var(--text-on-light);
   line-height:1.5;
   -webkit-font-smoothing:antialiased;
@@ -61,9 +60,22 @@ body{ overflow-x:hidden; max-width:100%;
      status bar / notch on top of anymore. Without this, the fixed
      announce bar and header render straight under the status bar icons
      instead of below them. background matches the header so the strip
-     reads as intentional, not a stray gap. */
+     reads as intentional, not a stray gap.
+     BUG THIS REPLACES: a plain `background-color:var(--pine-900)` here
+     used to paint the entire body dark, not just the safe-area sliver —
+     background-color always fills the whole box, padding included, so
+     it silently overrode `background:var(--parchment)` above on every
+     page, everywhere, in both themes. Any text sitting directly on the
+     body (not inside its own card/section) was --text-on-light, i.e.
+     dark text now sitting on a dark body, so it was reading as nearly
+     invisible (the account page's hero heading and "Sign out" button
+     were exactly this). A two-layer background fixes it precisely:
+     a pine-900 rectangle exactly env(safe-area-inset-top) tall pinned
+     to the top, parchment underneath and everywhere else. */
   padding-top:env(safe-area-inset-top);
-  background-color:var(--pine-900);
+  background:
+    linear-gradient(var(--pine-900),var(--pine-900)) top / 100% env(safe-area-inset-top) no-repeat,
+    var(--parchment);
 }
 img,picture,video,canvas,svg{ display:block; max-width:100%; }
 a{ color:inherit; text-decoration:none; }
@@ -283,7 +295,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   white-space:nowrap; flex:none; min-width:84px;
 }
 .nav-region:hover{ border-color:var(--brass-light); color:var(--text-on-dark); }
-@media (max-width:1150px){ .nav-region{ display:none; } }
+@media (max-width:1400px){ .nav-region{ display:none; } }
 
 /* ---------- command palette ---------- */
 .cmdk-overlay{
@@ -331,18 +343,28 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   border:1px solid rgba(245,239,223,.22); background:transparent; color:var(--text-on-dark-soft); font-size:.78rem;
 }
 .cmdk-trigger kbd{ font-family:var(--font-mono); background:rgba(245,239,223,.1); padding:1px 6px; border-radius:4px; }
-@media (max-width:1150px){ .cmdk-trigger{ display:none; } }
+@media (max-width:1400px){ .cmdk-trigger{ display:none; } }
 .nav-search-mobile{ display:none !important; }
-/* The full ⌘K search bar drops off the header below 1150px with nothing
+/* The full ⌘K search bar drops off the header below 1400px with nothing
    standing in for it, which meant there was simply no way to search on
-   a phone at all. This is that stand-in, using the same circular
-   icon-button treatment as the theme toggle and account link right next
-   to it so it doesn't look bolted on.
+   a phone (or a laptop/iPad in this range) at all. This is that stand-in,
+   using the same circular icon-button treatment as the theme toggle and
+   account link right next to it so it doesn't look bolted on.
+   The 1400px threshold (not 920px, where the rest of the nav collapses
+   to a hamburger) is deliberate: the full search bar + region pill +
+   "Check availability" button + 6 nav links + logo genuinely don't fit
+   until well past the 1240px container width, so this pair — plus
+   .nav-region below — switches to the compact icon early, before that
+   point, rather than right at it. Previously this was 1150px, which
+   left a dead zone roughly 1150-1400px (a common laptop/iPad-landscape
+   width) where the full-width controls were still asked to render but
+   didn't fit, so the search bar and region pill simply got clipped off
+   the right edge of the screen.
    !important on both rules here on purpose: .theme-toggle's own display
    rule sits later in this file and, at equal specificity, a later rule
    wins regardless of media query — that's exactly what silently kept
    this button showing at every width instead of just mobile. */
-@media (max-width:1150px){ .nav-search-mobile{ display:inline-flex !important; } }
+@media (max-width:1400px){ .nav-search-mobile{ display:inline-flex !important; } }
 
 .nav-links{ display:flex; align-items:center; gap:6px; }
 .nav-links a{
@@ -436,6 +458,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(3){ top:6px; transform:rotate(-45deg); }
 @media (prefers-reduced-motion: reduce){ .nav-toggle-bars span{ transition:none; } }
 .theme-toggle{
+  position:relative;
   width:40px; height:40px; border-radius:50%; border:1px solid rgba(245,239,223,.22);
   background:transparent; color:var(--text-on-dark); display:flex; align-items:center; justify-content:center;
   transition:border-color .2s, transform .3s, background .2s; flex:none;
@@ -443,6 +466,49 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .theme-toggle:hover{ border-color:var(--brass-light); transform:rotate(20deg); }
 .theme-toggle.is-active{ border-color:var(--brass); color:var(--brass-light); background:rgba(198,161,91,.12); }
 .theme-toggle i{ font-size:.9rem; }
+
+/* ---------- theme mode label ----------
+   A little lantern-lit signpost that names whichever mode you're
+   currently in — "Light mode" / "Dark mode" — using the same warm
+   glow the brand already uses on primary actions and selected dates
+   (--glow-brass, see tokens.css), so it reads as an intentional part
+   of the design rather than a bolted-on tooltip.
+   It's an absolutely-positioned bubble, not inline layout, on purpose:
+   the header's already tight for room (see the nav-region/cmdk-trigger
+   comment above), so this never competes for horizontal space or risks
+   reintroducing an overflow — it floats below the button and doesn't
+   affect the flex row at all, on any screen size, phone to desktop.
+   Content is injected by js/main.js's themeToggle(); this file only
+   handles how it looks and appears. */
+.theme-toggle-label{
+  position:absolute; top:calc(100% + 11px); left:50%; transform:translateX(-50%) translateY(-5px) scale(.95);
+  white-space:nowrap; font-family:var(--font-display); font-size:.72rem; font-weight:700; letter-spacing:.05em;
+  padding:7px 15px; border-radius:var(--radius-pill);
+  background:var(--pine-800); color:var(--brass-light); border:1px solid rgba(198,161,91,.45);
+  box-shadow:var(--glow-brass);
+  opacity:0; pointer-events:none; z-index:80;
+  transition:opacity .28s var(--ease), transform .28s var(--ease);
+}
+.theme-toggle-label::before{
+  content:""; position:absolute; bottom:100%; left:50%; transform:translateX(-50%);
+  width:0; height:0; border:6px solid transparent; border-bottom-color:var(--pine-800);
+}
+.theme-toggle:hover .theme-toggle-label,
+.theme-toggle:focus-visible .theme-toggle-label,
+.theme-toggle-label.is-flash{
+  opacity:1; transform:translateX(-50%) translateY(0) scale(1);
+}
+/* Right-align the bubble instead of centering when the toggle sits
+   near the header's right edge (mobile/compact header), so it can
+   never poke past the viewport edge and get clipped. */
+@media (max-width:480px){
+  .theme-toggle-label{ left:auto; right:-6px; transform:translateY(-5px) scale(.95); }
+  .theme-toggle-label::before{ left:auto; right:14px; transform:none; }
+  .theme-toggle:hover .theme-toggle-label,
+  .theme-toggle:focus-visible .theme-toggle-label,
+  .theme-toggle-label.is-flash{ transform:translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce){ .theme-toggle-label{ transition:opacity .28s; } }
 
 @media (max-width:920px){
   .nav-links{

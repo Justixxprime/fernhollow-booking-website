@@ -4,7 +4,7 @@
 <script>if(localStorage.getItem('fernhollow_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Page not found: Fernhollow</title>
+<title>A Year at Lantern Lake: Fernhollow Journal</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css">
@@ -13,16 +13,16 @@
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/print.css" media="print">
 <link rel="stylesheet" href="css/features.css">
-<meta property="og:title" content="Page not found: Fernhollow">
-<meta property="og:description" content="This page doesn't exist.">
+<meta property="og:title" content="A Year at Lantern Lake: Fernhollow Journal">
+<meta property="og:description" content="A cinematic season-by-season feature story: one guest, one cabin, four seasons at Lantern Lake.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://fernhollow.example/404.html">
-<meta property="og:image" content="https://images.unsplash.com/photo-1473213430984-9b37e45cd8b1?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta property="og:url" content="https://fernhollow.example/journal-feature.html">
+<meta property="og:image" content="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1200&h=630&q=80">
 <meta property="og:site_name" content="Fernhollow">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Page not found: Fernhollow">
-<meta name="twitter:description" content="This page doesn't exist.">
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1473213430984-9b37e45cd8b1?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta name="twitter:title" content="A Year at Lantern Lake: Fernhollow Journal">
+<meta name="twitter:description" content="A cinematic season-by-season feature story: one guest, one cabin, four seasons at Lantern Lake.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1200&h=630&q=80">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
@@ -50,6 +50,12 @@
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
+<div class="announce-bar" data-announce-bar>
+  <span>This is a portfolio demo: every booking flow is fully functional, no real payments are ever taken. <a href="https://justixxprime.github.io/" target="_blank" rel="noopener">See more of my work ↗</a></span>
+  <button class="announce-close" data-announce-close aria-label="Dismiss">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html">
@@ -98,24 +104,79 @@
 </header>
 
 <main id="main-content">
-  <section class="wrap error-page">
-    <p class="error-code">404</p>
-    <h1 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-top:10px;">This trail doesn't lead anywhere.</h1>
-    <p style="color:var(--text-on-light-soft);margin-top:14px;max-width:46ch;margin-inline:auto;">The page you're looking for either moved, never existed, or was a link typed from memory. Let's get you back on the path.</p>
-    <div style="display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
-      <a href="index.html" class="btn btn-primary btn-lg">Back to home</a>
-      <a href="stays.html" class="btn btn-ghost-light btn-lg">Browse all stays</a>
-    </div>
 
-    <div style="max-width:440px;margin:44px auto 0;text-align:left;">
-      <label for="lost-search" style="display:block;text-align:center;font-size:.85rem;color:var(--text-on-light-soft);margin-bottom:10px;">Or search for what you were after</label>
-      <div style="position:relative;">
-        <i class="fa-solid fa-magnifying-glass" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-on-light-soft);"></i>
-        <input id="lost-search" type="text" placeholder="A stay, a location…" style="width:100%;padding:13px 16px 13px 42px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);background:var(--parchment-soft);font-size:16px;">
-      </div>
-      <div data-lost-results style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
+  <div class="parallax-hero" style="margin:0 0 0;border-radius:0;height:82vh;" data-cinematic-hero>
+    <div class="px-layer px-sky" style="background-image:url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1800&h=1200&q=80')"></div>
+    <div class="px-veil"></div>
+    <div class="px-content" style="padding-bottom:60px;">
+      <p class="px-eyebrow">A Fernhollow feature story</p>
+      <h2 style="max-width:20ch;">A Year at Lantern Lake, One Season at a Time.</h2>
+      <p class="px-loc">Adirondacks, New York &middot; 9 minute read</p>
+    </div>
+  </div>
+
+  <section class="wrap section-tight" style="max-width:720px;">
+    <div data-cinematic>
+      <p style="font-size:1.2rem;line-height:1.7;color:var(--text-on-light-soft);">We asked one guest, back at Lantern Lake Cabin for her fourth stay, to keep a short journal each time &mdash; spring melt, high summer, the first frost, and the quiet of deep winter. Four seasons, one cabin, the same dock.</p>
     </div>
   </section>
+
+  <section class="wrap section-tight" style="max-width:720px;">
+    <div data-cinematic>
+      <p class="eyebrow">Chapter one</p>
+      <h2 style="margin-top:8px;">Spring: the lake lets go of the ice.</h2>
+    </div>
+    <div data-cinematic data-cinematic-delay="1" style="margin-top:22px;border-radius:var(--radius-lg);overflow:hidden;">
+      <img src="https://images.unsplash.com/photo-1682695794947-17061dc284dd?auto=format&fit=crop&w=1400&h=900&q=80" alt="A misty lake at dawn with the last ice breaking up near the shore" style="width:100%;display:block;">
+    </div>
+    <p data-cinematic data-cinematic-delay="2" style="margin-top:20px;color:var(--text-on-light-soft);line-height:1.75;">The ice goes out fast once it starts &mdash; loud, at night, like something shifting underneath the whole lake. By the second week of April the dock is usable again, and Owen has usually already got the canoe down from the rafters before we've asked.</p>
+    <blockquote style="margin:26px 0;padding-left:22px;border-left:3px solid var(--brass);font-family:var(--font-display);font-size:1.3rem;font-style:italic;color:var(--pine-800);" data-cinematic data-cinematic-delay="2">
+      "The hot tub on the dock at 6am with coffee, while the ice is still cracking somewhere out on the water, is genuinely one of the best things I've ever done on a Tuesday."
+    </blockquote>
+  </section>
+
+  <section class="wrap section-tight" style="max-width:720px;">
+    <div data-cinematic>
+      <p class="eyebrow">Chapter two</p>
+      <h2 style="margin-top:8px;">Summer: long light, longer swims.</h2>
+    </div>
+    <div data-cinematic data-cinematic-delay="1" style="margin-top:22px;border-radius:var(--radius-lg);overflow:hidden;">
+      <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&h=900&q=80" alt="A lake dock in golden evening light in summer" style="width:100%;display:block;">
+    </div>
+    <p data-cinematic data-cinematic-delay="2" style="margin-top:20px;color:var(--text-on-light-soft);line-height:1.75;">By July the light barely leaves before nine. We stopped making dinner plans and started just seeing what the evening did &mdash; usually a swim, then something off the grill, then the fire pit until it got properly dark, which some nights felt like it never quite did.</p>
+  </section>
+
+  <section class="wrap section-tight" style="max-width:720px;">
+    <div data-cinematic>
+      <p class="eyebrow">Chapter three</p>
+      <h2 style="margin-top:8px;">Autumn: the maples go first.</h2>
+    </div>
+    <div data-cinematic data-cinematic-delay="1" style="margin-top:22px;border-radius:var(--radius-lg);overflow:hidden;">
+      <img src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?auto=format&fit=crop&w=1400&h=900&q=80" alt="Autumn foliage reflected in a still lake" style="width:100%;display:block;">
+    </div>
+    <p data-cinematic data-cinematic-delay="2" style="margin-top:20px;color:var(--text-on-light-soft);line-height:1.75;">Late September, the ridge above the cabin turns before anywhere lower down does, so you get a preview from the porch for a week or two before the rest of the valley catches up. Canoe still goes out, just with an extra layer.</p>
+  </section>
+
+  <section class="wrap section-tight" style="max-width:720px;">
+    <div data-cinematic>
+      <p class="eyebrow">Chapter four</p>
+      <h2 style="margin-top:8px;">Winter: the quiet gets serious.</h2>
+    </div>
+    <div data-cinematic data-cinematic-delay="1" style="margin-top:22px;border-radius:var(--radius-lg);overflow:hidden;">
+      <img src="https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=format&fit=crop&w=1400&h=900&q=80" alt="A snow-covered cabin with warm light in the windows at dusk" style="width:100%;display:block;">
+    </div>
+    <p data-cinematic data-cinematic-delay="2" style="margin-top:20px;color:var(--text-on-light-soft);line-height:1.75;">This is the one people don't book enough. No bugs, no crowds, a stove that does the work of a fireplace and a heater at once, and snow that actually makes the dark sky brighter somehow. Owen drops off extra firewood without being asked. It's still my favorite of the four.</p>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="cta-band" data-reveal>
+        <h2>See Lantern Lake Cabin for yourself.</h2>
+        <a href="stay-detail.html?stay=lantern-lake-cabin" class="btn btn-primary btn-lg">View this stay</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -215,24 +276,6 @@
 <script src="js/booking-state.js"></script>
 <script src="js/main.js"></script>
 <script src="js/features.js"></script>
-<script>
-  (function lostSearch() {
-    const input = document.getElementById("lost-search");
-    const results = document.querySelector("[data-lost-results]");
-    if (!input || !results) return;
-    input.addEventListener("input", () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) { results.innerHTML = ""; return; }
-      const matches = STAYS.filter((s) => s.name.toLowerCase().includes(q) || s.location.toLowerCase().includes(q)).slice(0, 5);
-      results.innerHTML = matches.length
-        ? matches.map((s) => `
-          <a href="stay-detail.html?stay=${s.slug}" style="display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;background:var(--parchment-soft);">
-            <img src="${s.images[0]}" alt="" style="width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none;">
-            <span><b style="font-size:.88rem;">${s.name}</b><br><span style="font-size:.78rem;color:var(--text-on-light-soft);">${s.location}</span></span>
-          </a>`).join("")
-        : `<p style="text-align:center;font-size:.85rem;color:var(--text-on-light-soft);">No matches. Try <a href="stays.html">browsing all stays</a> instead.</p>`;
-    });
-  })();
-</script>
 </body>
+
 </html>

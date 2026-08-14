@@ -4,7 +4,7 @@
 <script>if(localStorage.getItem('fernhollow_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Page not found: Fernhollow</title>
+<title>Gift registry: Fernhollow</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css">
@@ -13,16 +13,16 @@
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/print.css" media="print">
 <link rel="stylesheet" href="css/features.css">
-<meta property="og:title" content="Page not found: Fernhollow">
-<meta property="og:description" content="This page doesn't exist.">
+<meta property="og:title" content="Gift registry: Fernhollow">
+<meta property="og:description" content="Start a group gift registry for a Fernhollow stay — perfect for weddings, honeymoons, and milestone birthdays.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://fernhollow.example/404.html">
-<meta property="og:image" content="https://images.unsplash.com/photo-1473213430984-9b37e45cd8b1?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta property="og:url" content="https://fernhollow.example/gift-registry.html">
+<meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&h=630&q=80">
 <meta property="og:site_name" content="Fernhollow">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Page not found: Fernhollow">
-<meta name="twitter:description" content="This page doesn't exist.">
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1473213430984-9b37e45cd8b1?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta name="twitter:title" content="Gift registry: Fernhollow">
+<meta name="twitter:description" content="Start a group gift registry for a Fernhollow stay — perfect for weddings, honeymoons, and milestone birthdays.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&h=630&q=80">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
@@ -50,6 +50,12 @@
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
+<div class="announce-bar" data-announce-bar>
+  <span>This is a portfolio demo: every booking flow is fully functional, no real payments are ever taken. <a href="https://justixxprime.github.io/" target="_blank" rel="noopener">See more of my work ↗</a></span>
+  <button class="announce-close" data-announce-close aria-label="Dismiss">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html">
@@ -98,24 +104,73 @@
 </header>
 
 <main id="main-content">
-  <section class="wrap error-page">
-    <p class="error-code">404</p>
-    <h1 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-top:10px;">This trail doesn't lead anywhere.</h1>
-    <p style="color:var(--text-on-light-soft);margin-top:14px;max-width:46ch;margin-inline:auto;">The page you're looking for either moved, never existed, or was a link typed from memory. Let's get you back on the path.</p>
-    <div style="display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
-      <a href="index.html" class="btn btn-primary btn-lg">Back to home</a>
-      <a href="stays.html" class="btn btn-ghost-light btn-lg">Browse all stays</a>
+
+  <section class="page-hero wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Gift registry</span></div>
+    <p class="eyebrow kicker">For weddings, honeymoons, big birthdays</p>
+    <h1>Let everyone chip in on one great stay.</h1>
+    <p style="max-width:56ch;margin-top:16px;color:var(--text-on-light-soft);">Pick a stay and a goal amount, share the code, and friends and family can each put in what they want toward it. Same honesty as the rest of the site: this is a demo, contributions are only ever recorded in your own browser.</p>
+  </section>
+
+  <section class="wrap section-tight" style="max-width:640px;">
+    <div class="detail-block">
+      <h3 style="margin-bottom:18px;">Start a registry</h3>
+      <form data-registry-form novalidate>
+        <div class="field">
+          <label for="reg-stay">Which stay</label>
+          <select id="reg-stay" data-registry-stay required></select>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="reg-occasion">What's the occasion</label>
+          <input id="reg-occasion" type="text" required placeholder="e.g. Our honeymoon">
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="reg-goal">Goal amount (USD)</label>
+          <input id="reg-goal" type="number" min="100" step="25" data-registry-goal placeholder="e.g. 1400">
+          <p class="hint">Defaults to roughly a week at the stay you pick, editable.</p>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="reg-from">Your name</label>
+          <input id="reg-from" type="text" required placeholder="Who's setting this up?">
+        </div>
+        <p data-registry-error style="color:#b23a3a;font-size:.82rem;margin-top:8px;" hidden></p>
+        <button type="submit" class="btn btn-primary btn-lg" style="margin-top:16px;width:100%;">Create registry</button>
+      </form>
     </div>
 
-    <div style="max-width:440px;margin:44px auto 0;text-align:left;">
-      <label for="lost-search" style="display:block;text-align:center;font-size:.85rem;color:var(--text-on-light-soft);margin-bottom:10px;">Or search for what you were after</label>
-      <div style="position:relative;">
-        <i class="fa-solid fa-magnifying-glass" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-on-light-soft);"></i>
-        <input id="lost-search" type="text" placeholder="A stay, a location…" style="width:100%;padding:13px 16px 13px 42px;border-radius:var(--radius-pill);border:1px solid var(--parchment-line);background:var(--parchment-soft);font-size:16px;">
+    <div class="detail-block" data-registry-result hidden style="margin-top:24px;background:var(--pine-800);color:var(--text-on-dark);">
+      <p class="eyebrow" style="justify-content:center;color:var(--brass-light);">Registry created</p>
+      <div style="text-align:center;">
+        <div data-registry-code style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;letter-spacing:.05em;margin:10px 0;color:var(--brass-light);"></div>
+        <button type="button" class="btn btn-ghost-dark btn-sm" data-registry-copy>Copy share code</button>
       </div>
-      <div data-lost-results style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
+      <div style="margin-top:22px;">
+        <div class="gh-bar" style="background:rgba(245,239,223,.15);"><div class="gh-bar-fill" data-registry-progress-fill style="width:0%"></div></div>
+        <p style="margin-top:8px;font-size:.85rem;" data-registry-progress-label></p>
+      </div>
+    </div>
+
+    <div class="detail-block" style="margin-top:40px;">
+      <h3 style="margin-bottom:14px;">Contribute to a registry</h3>
+      <form data-contribute-form style="display:flex;gap:10px;flex-wrap:wrap;">
+        <input type="text" placeholder="FH-REG-XXXX" style="flex:1;min-width:140px;" data-contribute-code required>
+        <input type="number" min="5" step="5" placeholder="Amount" style="width:110px;" data-contribute-amount required>
+        <input type="text" placeholder="Your name" style="flex:1;min-width:140px;" data-contribute-name required>
+        <button type="submit" class="btn btn-primary btn-sm">Contribute</button>
+      </form>
+      <div data-contribute-result style="margin-top:16px;" hidden></div>
     </div>
   </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="cta-band" data-reveal>
+        <h2>Not sure which stay yet?</h2>
+        <a href="quiz.html" class="btn btn-primary btn-lg">Find the right one</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -215,24 +270,7 @@
 <script src="js/booking-state.js"></script>
 <script src="js/main.js"></script>
 <script src="js/features.js"></script>
-<script>
-  (function lostSearch() {
-    const input = document.getElementById("lost-search");
-    const results = document.querySelector("[data-lost-results]");
-    if (!input || !results) return;
-    input.addEventListener("input", () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) { results.innerHTML = ""; return; }
-      const matches = STAYS.filter((s) => s.name.toLowerCase().includes(q) || s.location.toLowerCase().includes(q)).slice(0, 5);
-      results.innerHTML = matches.length
-        ? matches.map((s) => `
-          <a href="stay-detail.html?stay=${s.slug}" style="display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;background:var(--parchment-soft);">
-            <img src="${s.images[0]}" alt="" style="width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none;">
-            <span><b style="font-size:.88rem;">${s.name}</b><br><span style="font-size:.78rem;color:var(--text-on-light-soft);">${s.location}</span></span>
-          </a>`).join("")
-        : `<p style="text-align:center;font-size:.85rem;color:var(--text-on-light-soft);">No matches. Try <a href="stays.html">browsing all stays</a> instead.</p>`;
-    });
-  })();
-</script>
+<script src="js/gift-registry.js"></script>
 </body>
+
 </html>

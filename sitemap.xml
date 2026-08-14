@@ -10,7 +10,12 @@
   <url><loc>https://fernhollow.example/stay-detail.html?stay=sierra-hollow-chalet</loc><priority>0.8</priority></url>
   <url><loc>https://fernhollow.example/gallery.html</loc><priority>0.6</priority></url>
   <url><loc>https://fernhollow.example/locations.html</loc><priority>0.6</priority></url>
+  <url><loc>https://fernhollow.example/experiences.html</loc><priority>0.6</priority></url>
+  <url><loc>https://fernhollow.example/gift-registry.html</loc><priority>0.5</priority></url>
   <url><loc>https://fernhollow.example/about.html</loc><priority>0.5</priority></url>
   <url><loc>https://fernhollow.example/contact.html</loc><priority>0.5</priority></url>
   <url><loc>https://fernhollow.example/blog.html</loc><priority>0.5</priority></url>
+  <url><loc>https://fernhollow.example/journal-feature.html</loc><priority>0.4</priority></url>
+  <url><loc>https://fernhollow.example/sustainability.html</loc><priority>0.4</priority></url>
+  <url><loc>https://fernhollow.example/press.html</loc><priority>0.3</priority></url>
 </urlset>
