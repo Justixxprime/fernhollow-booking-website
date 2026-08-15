@@ -81,7 +81,7 @@ function mountGoldenHour(stay, lat, lng) {
   card.style.marginTop = "16px";
   card.innerHTML = `
     <div class="gh-head"><i class="fa-solid fa-sun"></i><h4>Golden hour at ${stay.location.split(",")[0]}</h4></div>
-    <div class="gh-count" data-gh-count>—</div>
+    <div class="gh-count" data-gh-count>Loading…</div>
     <div class="gh-sub" data-gh-sub>Calculating today's light…</div>
     <div class="gh-bar"><div class="gh-bar-fill" data-gh-fill style="width:0%"></div></div>
   `;
@@ -265,7 +265,7 @@ function mountHeatCalendar(stay) {
 
   const note = document.createElement("p");
   note.style.cssText = "font-size:.72rem;color:var(--text-on-light-soft);margin-top:8px;";
-  note.textContent = "Illustrative pricing trend for this demo — book actual dates in the Availability section below.";
+  note.textContent = "Illustrative pricing trend for this demo. Book actual dates in the Availability section below.";
   wrap.appendChild(note);
 
   host.appendChild(wrap);
@@ -297,11 +297,11 @@ function mountConstellation(stay, lat, lng) {
     <div class="sky-overlay-head">
       <div>
         <h3>The sky over ${stay.location.split(",")[0]}</h3>
-        <p>Zero light pollution is part of the pitch here — this is a stylized impression of tonight's stars, not a precise star chart.</p>
+        <p>Zero light pollution is part of the pitch here. This is a stylized impression of tonight's stars, not a precise star chart.</p>
       </div>
       <button type="button" class="sky-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="sky-overlay-foot">Procedurally generated for this stay (seeded, not live astronomy) — for real conditions, a stargazing app is more precise.</div>
+    <div class="sky-overlay-foot">Procedurally generated for this stay (seeded, not live astronomy). For real conditions, a stargazing app is more precise.</div>
   `;
   document.body.appendChild(overlay);
 

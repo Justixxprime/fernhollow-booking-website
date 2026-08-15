@@ -515,7 +515,21 @@
 /* ---------- misc utility ---------- */
 .on-dark{ background:var(--pine-900); color:var(--text-on-dark); }
 .on-dark h2,.on-dark h3{ color:var(--text-on-dark); }
-.map-frame{ border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--parchment-line); background:var(--parchment-soft); }
+.map-frame{
+  border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--parchment-line); background:var(--parchment-soft);
+  /* Leaflet gives its own internal layers (markers, popups, tiles) z-index
+     values up to 700 (see leaflet.css), and .leaflet-container is only
+     position:relative with no z-index of its own, so those values don't
+     stay contained here — they compare directly against z-indexed elements
+     elsewhere on the page. overflow:hidden alone only clips where content
+     can be PAINTED, not what it can outrank in stacking order, so a fixed
+     element (like the concierge chat button) sitting on top of this box on
+     screen could still lose to a z-index:600+ Leaflet layer underneath it.
+     isolation:isolate makes this box its own stacking context, capping
+     everything inside it — no matter what z-index Leaflet assigns — at
+     this element's own place in the page's stacking order. */
+  isolation:isolate;
+}
 .map-frame iframe{ width:100%; height:100%; border:0; filter:grayscale(.15) sepia(.08); }
 .map-frame .leaflet-container{ width:100%; height:100%; font-family:var(--font-body); background:var(--parchment-soft); }
 .map-frame .leaflet-popup-content-wrapper{ border-radius:10px; }

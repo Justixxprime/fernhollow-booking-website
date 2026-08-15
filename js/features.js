@@ -104,7 +104,7 @@ window.FernSolar = (function () {
   launcher.type = "button";
   launcher.setAttribute("aria-label", "Open the Fernhollow concierge chat");
   launcher.setAttribute("aria-expanded", "false");
-  launcher.innerHTML = `<i class="fa-solid fa-feather-pointed"></i><span class="concierge-dot"></span>`;
+  launcher.innerHTML = `<span class="concierge-icon"><i class="fa-solid fa-feather-pointed cg-i-idle"></i><i class="fa-solid fa-xmark cg-i-open"></i></span><span class="concierge-dot"></span>`;
 
   const panel = document.createElement("div");
   panel.className = "concierge-panel";
@@ -114,8 +114,8 @@ window.FernSolar = (function () {
     <div class="concierge-head">
       <div class="icon-wrap"><i class="fa-solid fa-feather-pointed"></i></div>
       <div>
-        <h3>Fernhollow concierge</h3>
-        <p>Demo assistant — try "hot tub under $300"</p>
+        <h3><span class="cg-live"></span>Fernhollow concierge</h3>
+        <p>Demo assistant. Try "hot tub under $300"</p>
       </div>
       <button type="button" class="concierge-close" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
     </div>
@@ -124,7 +124,7 @@ window.FernSolar = (function () {
       <input type="text" placeholder="Ask about a stay, dates, policies…" aria-label="Message" data-concierge-input maxlength="200">
       <button type="submit" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
     </form>
-    <p class="concierge-disclaimer">Rule-based demo, not a live AI model — see the README for why.</p>
+    <p class="concierge-disclaimer">Rule-based demo, not a live AI model. See the README for why.</p>
   `;
 
   document.body.appendChild(launcher);
@@ -173,7 +173,7 @@ window.FernSolar = (function () {
   }
 
   function fmtStay(s) {
-    return `<a href="stay-detail.html?stay=${s.slug}">${s.name}</a> — ${s.location.split(",")[0]}, $${s.price}/night`;
+    return `<a href="stay-detail.html?stay=${s.slug}">${s.name}</a>, ${s.location.split(",")[0]}, $${s.price}/night`;
   }
 
   function findStays(q) {
@@ -243,15 +243,15 @@ window.FernSolar = (function () {
         return;
       }
       if (/(check.?in|check.?out)/.test(lower)) {
-        addMsg("Check-in is typically 4:00 PM and check-out 10:00 AM, though it varies slightly by host — the exact times are on each stay's Policies tab.", "bot", ["Cancellation policy", "Pet-friendly options"]);
+        addMsg("Check-in is typically 4:00 PM and check-out 10:00 AM, though it varies slightly by host. The exact times are on each stay's Policies tab.", "bot", ["Cancellation policy", "Pet-friendly options"]);
         return;
       }
       if (/(gift)/.test(lower)) {
-        addMsg(`You can send a stay as a gift card from the <a href="gift.html">Gift a stay</a> page — the recipient picks their own dates later.`, "bot");
+        addMsg(`You can send a stay as a gift card from the <a href="gift.html">Gift a stay</a> page, and the recipient picks their own dates later.`, "bot");
         return;
       }
       if (/(reward|point|loyalt)/.test(lower)) {
-        addMsg(`Every booking earns points toward free nights — see the <a href="rewards.html">Rewards</a> page for tiers.`, "bot");
+        addMsg(`Every booking earns points toward free nights. See the <a href="rewards.html">Rewards</a> page for tiers.`, "bot");
         return;
       }
       if (/(contact|host|question|help me\b$)/.test(lower) && !findStays(lower).length) {
@@ -271,7 +271,7 @@ window.FernSolar = (function () {
       }
 
       addMsg(
-        "I can help you find a stay by price, guest count, region, or feature (hot tub, sauna, pet-friendly, lakeside) — or answer questions about check-in, cancellation, gifting, and rewards. What are you looking for?",
+        "I can help you find a stay by price, guest count, region, or feature (hot tub, sauna, pet-friendly, lakeside), or answer questions about check-in, cancellation, gifting, and rewards. What are you looking for?",
         "bot",
         ["Somewhere with a hot tub", "Best for 6 guests", "Cancellation policy"]
       );
@@ -281,12 +281,14 @@ window.FernSolar = (function () {
   function open() {
     opened = true;
     panel.classList.add("is-open");
+    launcher.classList.add("is-open");
     launcher.setAttribute("aria-expanded", "true");
+    launcher.setAttribute("aria-label", "Close the Fernhollow concierge chat");
     if (!greeted) {
       greeted = true;
       setTimeout(() => {
         addMsg(
-          "Welcome to Fernhollow. I'm the (demo) concierge — ask me things like <em>\"somewhere with a hot tub under $300\"</em> or <em>\"best for 6 guests near a lake.\"</em>",
+          "Welcome to Fernhollow. I'm the (demo) concierge. Ask me things like <em>\"somewhere with a hot tub under $300\"</em> or <em>\"best for 6 guests near a lake.\"</em>",
           "bot",
           ["Somewhere with a hot tub", "Best for 6 guests", "Cancellation policy"]
         );
@@ -297,7 +299,9 @@ window.FernSolar = (function () {
   function close() {
     opened = false;
     panel.classList.remove("is-open");
+    launcher.classList.remove("is-open");
     launcher.setAttribute("aria-expanded", "false");
+    launcher.setAttribute("aria-label", "Open the Fernhollow concierge chat");
   }
 
   launcher.addEventListener("click", () => (opened ? close() : open()));

@@ -428,7 +428,7 @@ function trapFocus(container, onEscape) {
     const isDark = document.documentElement.dataset.theme === "dark";
     btns.forEach((b) => {
       b.innerHTML = `<i class="fa-solid ${isDark ? "fa-sun" : "fa-moon"}"></i><span class="theme-toggle-label" role="status">${isDark ? "Dark mode" : "Light mode"}</span>`;
-      b.setAttribute("aria-label", isDark ? "Dark mode is on — switch to light mode" : "Light mode is on — switch to dark mode");
+      b.setAttribute("aria-label", isDark ? "Dark mode is on, switch to light mode" : "Light mode is on, switch to dark mode");
     });
   };
   paintIcon();

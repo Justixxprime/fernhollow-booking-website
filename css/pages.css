@@ -230,13 +230,25 @@
   position:sticky; top:78px; z-index:40; background:rgba(239,232,216,.97); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
   border-bottom:1px solid var(--parchment-line);
 }
-.tab-nav .wrap{ display:flex; gap:8px; overflow-x:auto; }
+.tab-nav .wrap{ display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
+.tab-nav .wrap::-webkit-scrollbar{ display:none; }
 .tab-nav a{
   padding:16px 4px; margin-right:26px; font-size:.9rem; font-weight:700; color:var(--text-on-light-soft);
   border-bottom:2px solid transparent; white-space:nowrap; transition:color .2s, border-color .2s;
 }
 .tab-nav a:hover{ color:var(--text-on-light); }
 .tab-nav a.is-active{ color:var(--brass-dark); border-color:var(--brass); }
+/* A soft fade over the last ~36px signals "there's more to scroll to" —
+   on the phone-width tab row (Overview / Amenities / Policies / Reviews)
+   the last tab used to just get sliced off at the viewport edge with
+   nothing telling you it was swipeable rather than cut off. Hidden on
+   any screen wide enough that every tab already fits with room to spare. */
+.tab-nav::after{
+  content:""; position:absolute; top:0; right:0; bottom:0; width:36px;
+  background:linear-gradient(90deg, transparent, rgba(239,232,216,.97));
+  pointer-events:none;
+}
+@media (min-width:860px){ .tab-nav::after{ display:none; } }
 
 /* ---------- availability calendar (interactive, not just a preview) ---------- */
 .availability-preview{ max-width:420px; }

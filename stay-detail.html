@@ -137,20 +137,26 @@
             <h1 data-stay-name style="font-size:clamp(1.7rem,3.4vw,2.3rem);"></h1>
             <p data-stay-loc style="color:var(--text-on-light-soft);margin-top:6px;"></p>
           </div>
-          <div style="text-align:right;">
-            <div data-stay-rating></div>
-            <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
-              <button class="icon-btn" data-add-to-trip aria-label="Add to trip planner">
-                <i class="fa-solid fa-suitcase-rolling"></i>
-              </button>
-              <button class="icon-btn" data-share-stay aria-label="Share this stay">
-                <i class="fa-solid fa-share-nodes"></i>
-              </button>
-            </div>
+        </div>
+
+        <!-- rating + actions: its own dedicated row rather than riding
+             along as a wrap-fallback of the row above (see the
+             .stay-meta-row comment in base.css for why that broke on
+             phones) -->
+        <div class="stay-meta-row">
+          <div data-stay-rating></div>
+          <div class="stay-meta-actions">
+            <button class="icon-btn" data-add-to-trip aria-label="Add to trip planner">
+              <i class="fa-solid fa-suitcase-rolling"></i>
+            </button>
+            <button class="icon-btn" data-share-stay aria-label="Share this stay">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
           </div>
         </div>
-        <p data-stay-quickfacts style="margin-top:14px;color:var(--text-on-light-soft);font-size:.92rem;"></p>
-        <p class="trust-line" data-trust-line style="margin-top:10px;"></p>
+
+        <p data-stay-quickfacts class="stay-quickfacts"></p>
+        <p class="trust-line" data-trust-line></p>
 
         <!-- facts row -->
         <div class="detail-block" id="overview">

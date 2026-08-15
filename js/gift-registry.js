@@ -28,7 +28,7 @@ function initGiftRegistryPage() {
   STAYS.forEach((s) => {
     const opt = document.createElement("option");
     opt.value = s.slug;
-    opt.textContent = `${s.name} — ${s.location.split(",")[0]} ($${s.price}/night)`;
+    opt.textContent = `${s.name}, ${s.location.split(",")[0]} ($${s.price}/night)`;
     staySelect.appendChild(opt);
   });
 
@@ -120,7 +120,7 @@ function initGiftRegistryPage() {
       <div class="golden-hour-card">
         <div class="gh-head"><i class="fa-solid fa-gift"></i><h4>${record.occasion}, for ${record.stayName}</h4></div>
         <div class="gh-bar"><div class="gh-bar-fill" style="width:${pct}%"></div></div>
-        <p class="gh-sub" style="margin-top:8px;">${money(record.raised)} of ${money(record.goal)} raised (${pct}%) — thank you, ${name || "friend"}!</p>
+        <p class="gh-sub" style="margin-top:8px;">${money(record.raised)} of ${money(record.goal)} raised (${pct}%), thank you, ${name || "friend"}!</p>
       </div>`;
     codeInput.value = "";
     amountInput.value = "";
