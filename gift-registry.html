@@ -160,7 +160,52 @@
       </form>
       <div data-contribute-result style="margin-top:16px;" hidden></div>
     </div>
+
+    <!-- ============ MANAGE: every registry created on this device ============ -->
+    <div style="margin-top:48px;">
+      <h3 style="margin-bottom:6px;">Your registries</h3>
+      <p style="font-size:.82rem;color:var(--text-on-light-soft);margin-bottom:18px;">Any registry created on this device, editable or removable any time &mdash; nothing here syncs anywhere else.</p>
+      <div data-my-registries-empty style="text-align:center;padding:30px 20px;border:1px dashed var(--parchment-line);border-radius:var(--radius-md);" hidden>
+        <p style="color:var(--text-on-light-soft);font-size:.9rem;">No registries on this device yet &mdash; create one above.</p>
+      </div>
+      <div data-my-registries style="display:flex;flex-direction:column;gap:16px;"></div>
+    </div>
   </section>
+
+  <!-- ============ REGISTRY CARD TEMPLATE (cloned by gift-registry.js) ============ -->
+  <template id="registry-card-template">
+    <div class="detail-block registry-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div style="min-width:0;">
+          <p style="font-family:var(--font-mono);font-size:.72rem;color:var(--brass-dark);font-weight:700;" data-rc-code></p>
+          <h4 style="font-size:1.05rem;margin-top:4px;" data-rc-occasion></h4>
+          <p style="font-size:.82rem;color:var(--text-on-light-soft);margin-top:2px;" data-rc-stay></p>
+        </div>
+        <div style="display:flex;gap:6px;flex:none;">
+          <button type="button" class="icon-btn" data-rc-edit aria-label="Edit registry" style="width:34px;height:34px;"><i class="fa-solid fa-pen"></i></button>
+          <button type="button" class="icon-btn" data-rc-copy aria-label="Copy share code" style="width:34px;height:34px;"><i class="fa-solid fa-copy"></i></button>
+          <button type="button" class="icon-btn" data-rc-delete aria-label="Delete registry" style="width:34px;height:34px;color:#b23a3a;"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div class="gh-bar"><div class="gh-bar-fill" data-rc-fill style="width:0%"></div></div>
+        <p style="margin-top:8px;font-size:.85rem;color:var(--text-on-light-soft);" data-rc-progress></p>
+      </div>
+
+      <div data-rc-edit-form style="margin-top:16px;display:none;gap:10px;flex-wrap:wrap;">
+        <input type="text" data-rc-edit-occasion style="flex:1;min-width:140px;" placeholder="Occasion">
+        <input type="number" min="50" step="25" data-rc-edit-goal style="width:120px;" placeholder="Goal">
+        <button type="button" class="btn btn-primary btn-sm" data-rc-edit-save>Save</button>
+        <button type="button" class="btn btn-ghost-light btn-sm" data-rc-edit-cancel>Cancel</button>
+      </div>
+
+      <details style="margin-top:14px;" data-rc-contributions-wrap>
+        <summary style="font-size:.8rem;color:var(--text-on-light-soft);cursor:pointer;font-weight:600;" data-rc-contrib-summary>Contributions</summary>
+        <ul style="margin-top:10px;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px;" data-rc-contributions></ul>
+      </details>
+    </div>
+  </template>
 
   <section class="section" style="padding-top:0;">
     <div class="wrap">

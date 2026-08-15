@@ -238,6 +238,8 @@
 }
 .tab-nav a:hover{ color:var(--text-on-light); }
 .tab-nav a.is-active{ color:var(--brass-dark); border-color:var(--brass); }
+.registry-card{ border-radius:var(--radius-md); }
+.registry-card summary::-webkit-details-marker{ color:var(--brass-dark); }
 /* A soft fade over the last ~36px signals "there's more to scroll to" —
    on the phone-width tab row (Overview / Amenities / Policies / Reviews)
    the last tab used to just get sliced off at the viewport edge with

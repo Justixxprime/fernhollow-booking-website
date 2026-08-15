@@ -6,6 +6,11 @@
    live only in this browser's localStorage, under their own key
    so they never collide with the single-gift-code system on
    gift.html. Reuses money() (data.js) and STAYS (data.js).
+
+   Full CRUD, not just create: every registry made on this device
+   is listed below the forms, editable (occasion/goal), deletable,
+   and its contributions are viewable — a registry isn't a
+   one-shot generator, it's something you can actually manage.
    ============================================================ */
 
 const REGISTRY_KEY = "fernhollow_registries";
@@ -17,6 +22,11 @@ function getRegistries() {
 function saveRegistry(code, record) {
   const all = getRegistries();
   all[code] = record;
+  localStorage.setItem(REGISTRY_KEY, JSON.stringify(all));
+}
+function deleteRegistry(code) {
+  const all = getRegistries();
+  delete all[code];
   localStorage.setItem(REGISTRY_KEY, JSON.stringify(all));
 }
 
@@ -43,6 +53,7 @@ function initGiftRegistryPage() {
   goalInput.addEventListener("input", () => (goalInput.dataset.auto = "0"));
   suggestGoal();
 
+  /* ---------- create ---------- */
   document.querySelector("[data-registry-form]").addEventListener("submit", (e) => {
     e.preventDefault();
     const errorEl = document.querySelector("[data-registry-error]");
@@ -68,21 +79,20 @@ function initGiftRegistryPage() {
     saveRegistry(code, { staySlug: stay.slug, stayName: stay.name, occasion, from, goal, raised: 0, contributions: [], createdAt: new Date().toISOString() });
 
     document.querySelector("[data-registry-code]").textContent = code;
-    paintProgress(code);
+    paintCreatedProgress(code);
     document.querySelector("[data-registry-result]").hidden = false;
     document.querySelector("[data-registry-result]").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.querySelector("[data-registry-form]").reset();
+    goalInput.dataset.auto = "1";
+    renderMyRegistries();
   });
 
   document.querySelector("[data-registry-copy]")?.addEventListener("click", () => {
     const code = document.querySelector("[data-registry-code]").textContent;
-    navigator.clipboard?.writeText(code);
-    const btn = document.querySelector("[data-registry-copy]");
-    const original = btn.textContent;
-    btn.textContent = "Copied!";
-    setTimeout(() => (btn.textContent = original), 1500);
+    copyCode(code, document.querySelector("[data-registry-copy]"));
   });
 
-  function paintProgress(code) {
+  function paintCreatedProgress(code) {
     const record = getRegistries()[code];
     if (!record) return;
     const pct = Math.min(100, Math.round((record.raised / record.goal) * 100));
@@ -91,6 +101,7 @@ function initGiftRegistryPage() {
       `${money(record.raised)} of ${money(record.goal)} raised toward ${record.stayName} (${pct}%)`;
   }
 
+  /* ---------- contribute ---------- */
   document.querySelector("[data-contribute-form]").addEventListener("submit", (e) => {
     e.preventDefault();
     const codeInput = document.querySelector("[data-contribute-code]");
@@ -125,7 +136,106 @@ function initGiftRegistryPage() {
     codeInput.value = "";
     amountInput.value = "";
     nameInput.value = "";
+    renderMyRegistries();
   });
+
+  function copyCode(code, btn) {
+    navigator.clipboard?.writeText(code);
+    const original = btn.innerHTML;
+    btn.innerHTML = btn === document.querySelector("[data-registry-copy]") ? "Copied!" : '<i class="fa-solid fa-check"></i>';
+    setTimeout(() => (btn.innerHTML = original), 1500);
+  }
+
+  /* ---------- manage: list every registry on this device ---------- */
+  function renderMyRegistries() {
+    const mount = document.querySelector("[data-my-registries]");
+    const emptyEl = document.querySelector("[data-my-registries-empty]");
+    const template = document.getElementById("registry-card-template");
+    if (!mount || !template) return;
+
+    const all = getRegistries();
+    const codes = Object.keys(all).sort((a, b) => new Date(all[b].createdAt) - new Date(all[a].createdAt));
+
+    mount.innerHTML = "";
+    if (!codes.length) {
+      emptyEl.hidden = false;
+      return;
+    }
+    emptyEl.hidden = true;
+
+    codes.forEach((code) => {
+      const record = all[code];
+      const node = template.content.cloneNode(true);
+      const card = node.querySelector(".registry-card");
+      const pct = Math.min(100, Math.round((record.raised / record.goal) * 100));
+
+      node.querySelector("[data-rc-code]").textContent = code;
+      node.querySelector("[data-rc-occasion]").textContent = record.occasion;
+      node.querySelector("[data-rc-stay]").textContent = `For ${record.stayName}, started by ${record.from}`;
+      node.querySelector("[data-rc-fill]").style.width = pct + "%";
+      node.querySelector("[data-rc-progress]").textContent = `${money(record.raised)} of ${money(record.goal)} raised (${pct}%)`;
+
+      const contribList = node.querySelector("[data-rc-contributions]");
+      const contribSummary = node.querySelector("[data-rc-contrib-summary]");
+      contribSummary.textContent = `Contributions (${record.contributions.length})`;
+      if (!record.contributions.length) {
+        contribList.innerHTML = `<li style="font-size:.82rem;color:var(--text-on-light-soft);">No contributions yet.</li>`;
+      } else {
+        record.contributions
+          .slice()
+          .reverse()
+          .forEach((c) => {
+            const li = document.createElement("li");
+            li.style.cssText = "display:flex;justify-content:space-between;font-size:.82rem;color:var(--text-on-light-soft);";
+            li.innerHTML = `<span>${escapeHtml(c.name)}</span><span style="font-weight:700;color:var(--text-on-light);">${money(c.amount)}</span>`;
+            contribList.appendChild(li);
+          });
+      }
+
+      // edit
+      const editForm = node.querySelector("[data-rc-edit-form]");
+      const editOccasion = node.querySelector("[data-rc-edit-occasion]");
+      const editGoal = node.querySelector("[data-rc-edit-goal]");
+      node.querySelector("[data-rc-edit]").addEventListener("click", () => {
+        editOccasion.value = record.occasion;
+        editGoal.value = record.goal;
+        editForm.style.display = editForm.style.display === "flex" ? "none" : "flex";
+      });
+      node.querySelector("[data-rc-edit-cancel]").addEventListener("click", () => (editForm.style.display = "none"));
+      node.querySelector("[data-rc-edit-save]").addEventListener("click", () => {
+        const newOccasion = editOccasion.value.trim();
+        const newGoal = Number(editGoal.value);
+        if (!newOccasion || !newGoal || newGoal < 50) {
+          showToast("Enter an occasion and a goal of at least $50");
+          return;
+        }
+        record.occasion = newOccasion;
+        record.goal = newGoal;
+        saveRegistry(code, record);
+        showToast("Registry updated");
+        renderMyRegistries();
+      });
+
+      // copy
+      node.querySelector("[data-rc-copy]").addEventListener("click", (e) => copyCode(code, e.currentTarget));
+
+      // delete
+      node.querySelector("[data-rc-delete]").addEventListener("click", () => {
+        if (!confirm(`Delete the registry for "${record.occasion}"? This can't be undone.`)) return;
+        deleteRegistry(code);
+        showToast("Registry deleted");
+        renderMyRegistries();
+      });
+
+      mount.appendChild(node);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  renderMyRegistries();
 }
 
 document.addEventListener("DOMContentLoaded", initGiftRegistryPage);

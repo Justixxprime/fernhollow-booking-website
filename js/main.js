@@ -676,6 +676,56 @@ function paintTripBadge() {
 }
 paintTripBadge();
 
+/* ---------- experience cart ----------
+   Bookable add-ons (experiences.html) aren't stays, so they don't
+   fit TripPlanner above — a stay has a slug that resolves against
+   STAYS, a checkin/checkout, its own booking flow; an experience is
+   just a priced line item with a quantity. Kept as its own small
+   store rather than shoehorned into TripPlanner, and rendered on
+   trip.html alongside the stay itinerary so "add to trip" actually
+   means something you can see, edit, and remove later, not just a
+   toast that immediately forgets what happened. */
+const ExperienceCart = {
+  key: "fernhollow_experience_cart",
+  get() {
+    try { return JSON.parse(localStorage.getItem(this.key)) || []; }
+    catch { return []; }
+  },
+  save(list) {
+    localStorage.setItem(this.key, JSON.stringify(list));
+    paintExperienceBadge();
+  },
+  add(item) {
+    const list = this.get();
+    const existing = list.find((i) => i.id === item.id);
+    if (existing) existing.qty += item.qty || 1;
+    else list.push({ ...item, qty: item.qty || 1 });
+    this.save(list);
+  },
+  remove(id) {
+    this.save(this.get().filter((i) => i.id !== id));
+  },
+  setQty(id, qty) {
+    const list = this.get();
+    const item = list.find((i) => i.id === id);
+    if (!item) return;
+    item.qty = Math.max(1, qty);
+    this.save(list);
+  },
+  clear() { this.save([]); },
+  has(id) { return this.get().some((i) => i.id === id); },
+  total() { return this.get().reduce((sum, i) => sum + i.price * i.qty, 0); },
+};
+
+function paintExperienceBadge() {
+  const count = ExperienceCart.get().reduce((n, i) => n + i.qty, 0);
+  document.querySelectorAll("[data-nav-experience-badge]").forEach((el) => {
+    el.textContent = count;
+    el.hidden = count === 0;
+  });
+}
+paintExperienceBadge();
+
 /* ---------- compare tray ----------
    compare.html reads up to 3 stays from ?a=&b=&c= query params, so this
    caps at 3 to match — a 4th tap gets a toast explaining why instead of

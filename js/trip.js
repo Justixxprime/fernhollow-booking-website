@@ -10,6 +10,7 @@
 
 function initTripPage() {
   renderTrip();
+  renderExperienceCart();
   document.querySelector("[data-print-trip]")?.addEventListener("click", () => window.print());
 }
 
@@ -21,9 +22,12 @@ function renderTrip() {
   const template = document.getElementById("trip-stop-template");
 
   if (!stops.length) {
-    emptyState.hidden = false;
+    // Only show the "your trip is empty" illustration if there's truly
+    // nothing at all — a trip made up of just experiences (no stays yet)
+    // is still a real trip in progress, not an empty one.
+    emptyState.hidden = ExperienceCart.get().length > 0;
     listMount.innerHTML = "";
-    summaryEl.hidden = true;
+    renderTripSummary();
     return;
   }
   emptyState.hidden = true;
@@ -141,6 +145,7 @@ function renderTrip() {
 
   function renderTripSummary() {
     const currentStops = TripPlanner.get();
+    const expTotal = ExperienceCart.total();
     let total = 0, nights = 0, withDates = 0;
     currentStops.forEach((s) => {
       const stay = getStay(s.slug);
@@ -153,18 +158,97 @@ function renderTrip() {
         withDates++;
       }
     });
-    if (!withDates) {
+    const grandTotal = total + expTotal;
+
+    if (!withDates && !expTotal) {
       summaryEl.hidden = true;
       return;
     }
     summaryEl.hidden = false;
-    document.querySelector("[data-trip-summary-label]").textContent = `${currentStops.length} stop${currentStops.length > 1 ? "s" : ""}, ${nights} night${nights > 1 ? "s" : ""} total`;
-    document.querySelector("[data-trip-summary-total]").textContent = money(total);
+    const labelParts = [];
+    if (currentStops.length) labelParts.push(`${currentStops.length} stop${currentStops.length > 1 ? "s" : ""}, ${nights} night${nights === 1 ? "" : "s"}`);
+    if (expTotal) labelParts.push(`${ExperienceCart.get().reduce((n, i) => n + i.qty, 0)} experience${ExperienceCart.get().length > 1 ? "s" : ""}`);
+    document.querySelector("[data-trip-summary-label]").textContent = labelParts.join(" + ") || "Your trip so far";
+    document.querySelector("[data-trip-summary-total]").textContent = money(grandTotal);
+
+    const expNoteEl = document.querySelector("[data-trip-summary-experiences-note]");
+    if (expTotal) {
+      expNoteEl.hidden = false;
+      expNoteEl.textContent = `Includes ${money(expTotal)} in experiences`;
+    } else {
+      expNoteEl.hidden = true;
+    }
+
     document.querySelector("[data-trip-summary-note]").textContent =
       withDates < currentStops.length
         ? `${currentStops.length - withDates} stop${currentStops.length - withDates > 1 ? "s" : ""} still need dates to be included in this total.`
-        : "Combined total across every stop, before booking any of them individually.";
+        : "Combined total across every stop and experience, before booking any of them individually.";
   }
+}
+
+/* ---------- experience cart (from experiences.html) ----------
+   Renders, and lets you edit right here: quantity steppers, a
+   per-item remove, and a "clear all" — a real cart, not a one-way
+   list. Every mutation re-renders both this and the trip summary
+   above so the totals never drift out of sync with what's on screen. */
+function renderExperienceCart() {
+  const section = document.querySelector("[data-experiences-section]");
+  const listMount = document.querySelector("[data-experience-cart-list]");
+  const totalEl = document.querySelector("[data-experience-cart-total]");
+  const template = document.getElementById("experience-item-template");
+  const clearBtn = document.querySelector("[data-experience-cart-clear]");
+  if (!section || !listMount || !template) return;
+
+  const items = ExperienceCart.get();
+  if (!items.length) {
+    section.hidden = true;
+    listMount.innerHTML = "";
+    return;
+  }
+  section.hidden = false;
+  listMount.innerHTML = "";
+
+  items.forEach((item) => {
+    const node = template.content.cloneNode(true);
+    node.querySelector("[data-exp-name]").textContent = item.name;
+    node.querySelector("[data-exp-unit-price]").textContent = `${money(item.price)} / ${item.unit}`;
+    node.querySelector("[data-exp-qty]").textContent = item.qty;
+    node.querySelector("[data-exp-line-total]").textContent = money(item.price * item.qty);
+
+    node.querySelector("[data-exp-minus]").addEventListener("click", () => {
+      if (item.qty <= 1) {
+        ExperienceCart.remove(item.id);
+        showToast(item.name + " removed from your trip");
+      } else {
+        ExperienceCart.setQty(item.id, item.qty - 1);
+      }
+      renderExperienceCart();
+      renderTrip();
+    });
+    node.querySelector("[data-exp-plus]").addEventListener("click", () => {
+      ExperienceCart.setQty(item.id, item.qty + 1);
+      renderExperienceCart();
+      renderTrip();
+    });
+    node.querySelector("[data-exp-remove]").addEventListener("click", () => {
+      ExperienceCart.remove(item.id);
+      showToast(item.name + " removed from your trip");
+      renderExperienceCart();
+      renderTrip();
+    });
+
+    listMount.appendChild(node);
+  });
+
+  totalEl.textContent = money(ExperienceCart.total());
+
+  clearBtn.onclick = () => {
+    if (!confirm("Remove every experience from this trip?")) return;
+    ExperienceCart.clear();
+    showToast("Experiences cleared");
+    renderExperienceCart();
+    renderTrip();
+  };
 }
 
 document.addEventListener("DOMContentLoaded", initTripPage);

@@ -184,6 +184,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   background:transparent; color:var(--text-on-light); border-color:var(--parchment-line);
 }
 .btn-ghost-light:hover{ border-color:var(--brass-dark); color:var(--brass-dark); }
+.btn-ghost-light.is-active{ background:var(--pine-800); color:var(--text-on-dark); border-color:var(--pine-800); }
+.btn-ghost-light.is-active:hover{ background:#b23a3a; border-color:#b23a3a; color:#fff; }
+.btn-ghost-light.is-active:hover i{ display:none; }
 
 .btn-block{ width:100%; }
 .btn:disabled{ opacity:.45; cursor:not-allowed; box-shadow:none; transform:none; }
