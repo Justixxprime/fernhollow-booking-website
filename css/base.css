@@ -37,18 +37,22 @@ input, select, textarea{ font-size:16px !important; }
 [id]{ scroll-margin-top: 100px; }
 html{
   -webkit-text-size-adjust:100%; scroll-behavior:smooth; max-width:100%; width:100%;
-  /* overflow-x:hidden on <html> is the standard fix for "a sliver of
-     background visible past the right edge on iOS," but it's deliberately
-     NOT used here — see the full explanation below on body, where the
-     same protection is applied without that risk. overflow-x:clip is a
-     newer, narrower tool: unlike hidden/auto/scroll, it does not establish
-     a scrollable region at all, just a hard paint boundary, so it doesn't
-     carry the same known history of breaking position:sticky in Safari.
-     Browsers too old to know "clip" simply ignore it (falls back to the
-     default, visible) rather than misapplying it, so this is a safe,
-     no-regression reinforcement layered on top of body's own protection,
-     not a replacement for it. */
-  overflow-x:clip;
+  /* overflow-x:hidden (or overflow-x:clip, tried here for a few
+     revisions) on <html> is the standard fix for "a sliver of
+     background visible past the right edge on iOS" — but it's
+     deliberately NOT used, on either value. Setting overflow-x to
+     anything other than visible on the ROOT element forces the used
+     value of overflow-y to auto as well (per the CSS Overflow spec's
+     "no non-visible + visible pairing" rule), which turns <html>
+     itself into a scroll container — and a sticky element's
+     containing block stops being the true viewport the moment any
+     ancestor between it and the viewport becomes a scroll container,
+     silently breaking position:sticky for everything on the page
+     (the booking-summary card on stay-detail.html, confirmed dead
+     the moment this was tried). Reverted for exactly that reason —
+     see body below, where the same right-edge protection is applied
+     without this risk, because overflow-x:hidden lower down the tree
+     doesn't touch <html>'s own containing-block status. */
 }
 /* Belt-and-suspenders against ANY sideways scroll on the page itself —
    found and fixed several individual causes (the header overflowing on

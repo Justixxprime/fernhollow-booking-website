@@ -99,6 +99,19 @@ window.FernSolar = (function () {
 (function concierge() {
   if (document.querySelector(".concierge-launcher")) return; // safety: never mount twice
 
+  // stay-detail.html and booking.html both have a mobile sticky
+  // "Reserve" bar pinned to the bottom of the screen below 980px — the
+  // concierge launcher's own default bottom:20px sat right on top of
+  // it (same corner, and the launcher's z-index is deliberately high
+  // so it stays above overlays like the Leaflet map), silently hiding
+  // the Reserve button underneath it. Flagging it here, once, lets the
+  // CSS lift the launcher/panel clear of that bar specifically on the
+  // pages that have one, without guessing a page name or duplicating
+  // this file per page.
+  if (document.querySelector(".summary-bar-mobile")) {
+    document.body.classList.add("has-mobile-summary-bar");
+  }
+
   const launcher = document.createElement("button");
   launcher.className = "concierge-launcher";
   launcher.type = "button";
@@ -304,8 +317,102 @@ window.FernSolar = (function () {
     launcher.setAttribute("aria-label", "Open the Fernhollow concierge chat");
   }
 
-  launcher.addEventListener("click", () => (opened ? close() : open()));
+  launcher.addEventListener("click", (e) => {
+    if (launcher.dataset.justDragged === "1") { launcher.dataset.justDragged = "0"; return; }
+    opened ? close() : open();
+  });
   panel.querySelector(".concierge-close").addEventListener("click", close);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && opened) close(); });
   form.addEventListener("submit", (e) => { e.preventDefault(); handleQuery(input.value); });
+
+  initDrag(launcher, panel);
 })();
+
+/* ---------- draggable positioning ----------
+   The launcher is fixed bottom-right by default, but that one spot
+   turned out to be a magnet for collisions with whatever else lives
+   in that corner — the site's own back-to-top button (same corner,
+   pre-existing), the mobile sticky Reserve bar on stay-detail and
+   booking, and Leaflet's map controls. Rather than keep chasing each
+   new page that happens to put something there, the bubble is
+   click-and-drag movable, and remembers where you left it (per
+   device, via localStorage) across every page — move it once out of
+   the way and it stays out of the way everywhere. Falls back to the
+   normal fixed corner untouched if it's never been dragged. */
+function initDrag(launcher, panel) {
+  const POS_KEY = "fernhollow_concierge_pos";
+  const DRAG_THRESHOLD = 6;
+  let dragging = false, moved = false, startX, startY, startLeft, startTop;
+
+  function applyPosition(left, top) {
+    const w = launcher.offsetWidth || 58, h = launcher.offsetHeight || 58;
+    const margin = 8;
+    left = Math.min(Math.max(left, margin), window.innerWidth - w - margin);
+    top = Math.min(Math.max(top, margin), window.innerHeight - h - margin);
+    launcher.style.left = `${left}px`;
+    launcher.style.top = `${top}px`;
+    launcher.style.right = "auto";
+    launcher.style.bottom = "auto";
+    positionPanelNear(left, top, w, h);
+  }
+
+  function positionPanelNear(left, top, w, h) {
+    const panelW = Math.min(380, window.innerWidth * 0.92);
+    const panelH = Math.min(600, window.innerHeight * 0.72);
+    const margin = 12;
+    // prefer opening above the bubble, flipping below if there's no room
+    let panelTop = top - panelH - margin;
+    if (panelTop < margin) panelTop = Math.min(top + h + margin, window.innerHeight - panelH - margin);
+    // prefer aligning to the bubble's left edge, flipping if it would overflow right
+    let panelLeft = left;
+    if (panelLeft + panelW > window.innerWidth - margin) panelLeft = window.innerWidth - panelW - margin;
+    panel.style.left = `${Math.max(margin, panelLeft)}px`;
+    panel.style.top = `${panelTop}px`;
+    panel.style.right = "auto";
+    panel.style.bottom = "auto";
+  }
+
+  function restorePosition() {
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem(POS_KEY)); } catch { saved = null; }
+    if (saved && typeof saved.left === "number" && typeof saved.top === "number") {
+      applyPosition(saved.left, saved.top);
+    }
+  }
+  restorePosition();
+  window.addEventListener("resize", () => {
+    const rect = launcher.getBoundingClientRect();
+    if (launcher.style.left) applyPosition(rect.left, rect.top);
+  });
+
+  launcher.style.cursor = "grab";
+  launcher.addEventListener("pointerdown", (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+    dragging = true; moved = false;
+    const rect = launcher.getBoundingClientRect();
+    startX = e.clientX; startY = e.clientY;
+    startLeft = rect.left; startTop = rect.top;
+    launcher.setPointerCapture(e.pointerId);
+    launcher.style.cursor = "grabbing";
+    launcher.style.transition = "none";
+  });
+  launcher.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - startX, dy = e.clientY - startY;
+    if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) moved = true;
+    if (moved) applyPosition(startLeft + dx, startTop + dy);
+  });
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    launcher.style.cursor = "grab";
+    launcher.style.transition = "";
+    if (moved) {
+      launcher.dataset.justDragged = "1";
+      const rect = launcher.getBoundingClientRect();
+      localStorage.setItem(POS_KEY, JSON.stringify({ left: rect.left, top: rect.top }));
+    }
+  }
+  launcher.addEventListener("pointerup", endDrag);
+  launcher.addEventListener("pointercancel", endDrag);
+}

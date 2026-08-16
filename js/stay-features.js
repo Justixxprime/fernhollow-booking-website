@@ -21,7 +21,42 @@ document.addEventListener("DOMContentLoaded", () => {
   mountHeatCalendar(stay);
   mountConstellation(stay, lat, lng);
   mountWalkthrough(stay);
+  mountStickySummaryPolish();
 });
+
+/* ---------- sticky booking summary: a "locked in" cue ----------
+   The card (css/components.css .summary-card) is already
+   position:sticky and follows the scroll, stopping on its own once
+   its grid cell runs out below the page's main content — no JS
+   needed for that part. This just adds a small visual cue for the
+   moment it actually becomes pinned, so "it's now following you"
+   reads as an intentional bit of polish rather than a static box
+   that happens to not scroll.
+   A plain scroll check (rather than an IntersectionObserver
+   sentinel) on purpose: .summary-card is a direct child of the
+   .detail-grid CSS Grid, so inserting any sibling marker element
+   next to it — the usual sentinel technique — would itself become
+   an unwanted third grid item and get auto-placed into a new row,
+   not actually where it's needed. Reading the card's own
+   getBoundingClientRect().top avoids touching the grid at all. */
+function mountStickySummaryPolish() {
+  const card = document.querySelector(".summary-card");
+  if (!card) return;
+  const STUCK_AT = 100; // matches .summary-card's top:100px
+  let ticking = false;
+  function check() {
+    ticking = false;
+    card.classList.toggle("is-stuck", Math.round(card.getBoundingClientRect().top) <= STUCK_AT);
+  }
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(check);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  check();
+}
 
 /* ---------- 1. parallax cabin hero ----------
    Inserted just above the existing photo gallery grid, not

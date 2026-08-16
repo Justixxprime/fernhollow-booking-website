@@ -52,14 +52,16 @@
 
 .concierge-launcher{
   position:fixed; right:20px; bottom:20px; z-index:500;
-  width:58px; height:58px; border-radius:50%; border:none; cursor:pointer;
+  width:58px; height:58px; border-radius:50%; border:none; cursor:grab;
   background:linear-gradient(160deg,var(--brass-light),var(--brass-dark));
   color:var(--pine-900); font-size:1.35rem;
   display:flex; align-items:center; justify-content:center;
   animation:concierge-breathe 3.4s ease-in-out infinite;
   transition:transform .35s var(--ease);
   padding-bottom:env(safe-area-inset-bottom);
+  touch-action:none;
 }
+.concierge-launcher:active{ cursor:grabbing; }
 .concierge-launcher::before{
   /* the slow-rotating "catching the light" ring */
   content:""; position:absolute; inset:-6px; border-radius:50%; z-index:-1;
@@ -89,6 +91,19 @@
 }
 @media (max-width:600px){ .concierge-launcher{ right:14px; bottom:14px; width:52px; height:52px; font-size:1.2rem; } }
 
+/* Clears the mobile sticky Reserve bar on stay-detail.html/booking.html
+   (see the comment in features.js where .has-mobile-summary-bar gets
+   set) — that bar is ~82px tall including its own padding, plus the
+   safe-area inset on notched phones, so the launcher needs to sit
+   above all of that rather than at its usual bottom:20px/14px, which
+   used to land it directly on top of the Reserve button. */
+@media (max-width:980px){
+  body.has-mobile-summary-bar .concierge-launcher{ bottom:calc(82px + env(safe-area-inset-bottom) + 14px); }
+}
+@media (max-width:600px){
+  body.has-mobile-summary-bar .concierge-launcher{ bottom:calc(82px + env(safe-area-inset-bottom) + 10px); }
+}
+
 .concierge-panel{
   position:fixed; right:20px; bottom:90px; z-index:501;
   width:min(92vw,380px); max-height:min(72vh,600px);
@@ -113,6 +128,12 @@
 }
 @media (prefers-reduced-motion: reduce){ .concierge-panel::before{ animation:none; } }
 @media (max-width:600px){ .concierge-panel{ right:10px; bottom:76px; width:calc(100vw - 20px); } }
+@media (max-width:980px){
+  body.has-mobile-summary-bar .concierge-panel{ bottom:calc(82px + env(safe-area-inset-bottom) + 84px); }
+}
+@media (max-width:600px){
+  body.has-mobile-summary-bar .concierge-panel{ bottom:calc(82px + env(safe-area-inset-bottom) + 78px); }
+}
 
 .concierge-head{
   position:relative; padding:16px 18px; background:linear-gradient(160deg,var(--pine-800),var(--pine-900)); color:var(--text-on-dark);
